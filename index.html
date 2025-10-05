@@ -1,0 +1,1282 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BotTola_AI</title>
+  <!-- Bootstrap 5 (latest) CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --sidebar-width: 260px;
+      --sidebar-collapsed: 72px;
+    }
+
+    html,
+    body,
+    #app {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: #11220f;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-size: 0.75em;
+    }
+
+    button {
+      font-size: 0.75rem !important;
+    }
+
+    .bg-sec {
+      background-color: #172c15 !important;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 1rem 0.5rem;
+      background: #11220f;
+      /* dark */
+      color: #e6eef8;
+      overflow-y: auto;
+      transition: transform .22s ease, width .22s ease;
+    }
+
+    /* collapsed (desktop) */
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed);
+    }
+
+    /* hide text when collapsed */
+    .sidebar.collapsed .brand,
+    .sidebar.collapsed .nav-link span,
+    .sidebar.collapsed .d-grid button span {
+      display: none;
+    }
+
+    .sidebar.collapsed .nav-link {
+      padding-left: .6rem;
+      padding-right: .6rem;
+    }
+
+    .sidebar .nav-link {
+      color: #cfe3ff;
+      border-radius: 10px;
+      padding: .65rem .75rem;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar .brand {
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 1.05rem;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left .22s ease, width .22s ease;
+    }
+
+    .video_container{
+      height: 150px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    /* when collapsed adjust main margin */
+    .sidebar.collapsed+.main-content,
+    .sidebar.collapsed~.main-content {
+      margin-left: var(--sidebar-collapsed);
+      width: calc(100% - var(--sidebar-collapsed));
+    }
+
+    /* Top AD cards */
+    .ad-card {
+      min-height: 58px;
+    }
+
+    /* Search Area */
+    .search_area span {
+      background: #fff0;
+      color: #f5f5f5;
+    }
+
+    .search_area input {
+      background: #fff0;
+    }
+
+    /* Dark-friendly placeholder colors (search, forms, textarea) */
+    .search_area input::placeholder,
+    .form-control::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+      /* ensure consistent opacity across browsers */
+    }
+
+    /* vendor prefixes */
+    .search_area input::-webkit-input-placeholder,
+    .form-control::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input:-ms-input-placeholder,
+    .form-control:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-ms-input-placeholder,
+    .form-control::-ms-input-placeholder,
+    textarea::-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-moz-placeholder,
+    .form-control::-moz-placeholder,
+    textarea::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+    }
+
+    /* Chat area */
+    .chat-window {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 6px 18px rgba(20, 24, 40, 0.06);
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: #eef6ff;
+      color: #04253a;
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      max-width: 78%;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: #0b63ff;
+      color: white;
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      max-width: 78%;
+    }
+
+    /* Bottom prompt */
+
+    .asset-thumb {
+      border-radius: 8px;
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    /* Ensure images inside ratio containers cover the area */
+    .ratio img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ensure ratio container positions children relative */
+    .ratio {
+      position: relative;
+    }
+
+    /* ensure download button sits above the overlay */
+    .position-relative .btn {
+      z-index: 3;
+    }
+
+    .play-overlay {
+      z-index: 2;
+    }
+
+    /* clickable cursors */
+    .clickable {
+      cursor: pointer;
+    }
+
+    /* play overlay for video thumbnails */
+    .play-overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    /* remove extra gap above tab inner cards */
+    .tab-pane>.bg-white {
+      margin-top: 0 !important;
+    }
+
+    /* Dark-theme surfaces and controls */
+    :root {
+      --surface-1: #071028;
+      /* panels */
+      --surface-2: #0b1220;
+      /* cards */
+      --muted: rgba(255, 255, 255, 0.65);
+      --muted-2: rgba(255, 255, 255, 0.45);
+      --input-border: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Card / panel surfaces used for image/video grids */
+    .tab-content .rounded-3.p-3.shadow-sm {
+      background: var(--surface-2);
+      color: #e6eef8;
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Chat window (if present) dark surface */
+    .chat-window {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Inputs & search */
+    .search_area .input-group-text,
+    .search_area .form-control {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--input-border);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: antiquewhite;
+    }
+
+    /* form controls in composer */
+    .composer .form-control {
+      background: transparent;
+      color: #e6eef8;
+      border: 1px solid var(--input-border);
+    }
+
+    /* asset thumbnails look good on dark */
+    .asset-thumb {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Nav pills on dark background */
+    .nav-pills .nav-link {
+      color: #cfe3ff;
+    }
+
+    .nav-pills .nav-link.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    /* Modal into dark surface */
+    .modal-content {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .modal .btn-close {
+      filter: invert(1) brightness(2);
+      opacity: .9;
+    }
+
+    /* Buttons: make outline-light more visible on dark */
+    .btn-outline-light {
+      color: #e6eef8;
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+
+    /* Composer fixed to bottom */
+    .composer {
+      position: fixed;
+      bottom: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      padding: .75rem;
+      z-index: 4;
+      box-shadow: 0 -6px 18px rgba(20, 24, 40, 0.06);
+    }
+
+    /* adjust when sidebar collapsed */
+    .sidebar.collapsed~.main-content .composer {
+      left: var(--sidebar-collapsed);
+    }
+
+    /* mobile: composer spans full width */
+    @media (max-width: 991.98px) {
+      .composer {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    /* reserve space so content is not hidden behind composer */
+    .main-content {
+      padding-bottom: 92px;
+    }
+
+    /* Small screens: collapse sidebar into off-canvas */
+    @media (max-width: 991.98px) {
+      .sidebar {
+        transform: translateX(-120%);
+        z-index: 4;
+      }
+
+      .sidebar.show-mobile {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      /* when off-canvas is open, ensure full width display */
+      .sidebar.show-mobile.collapsed {
+        width: var(--sidebar-width);
+      }
+    }
+
+    /* Ensure ad-cards stack nicely on mobile */
+    @media (max-width: 575.98px) {
+      .ad-wrapper .col {
+        margin-bottom: .5rem;
+      }
+    }
+
+    /* *****  GALLERIES ***** */
+
+    .gallery-wrapper {
+      /* padding: 2rem 7rem;  */
+      display: grid;
+      justify-content: center;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: auto;
+      grid-gap: 0.3rem;
+      grid-auto-flow: dense;
+    }
+
+    /* Another way to do the same without declaring in the classes - remove h-x w-x from classes */
+    /* .gallery-wrapper {
+  padding: 2rem 10rem;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 300px);
+  grid-auto-rows: 200px;
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+} */
+
+
+    .gallery-item {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      filter: drop-shadow(2px 2px 3px #333);
+    }
+
+    .gallery-item .image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .gallery-item .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      cursor: pointer;
+      transition: all 400ms ease-in;
+      transform: scale(1);
+    }
+
+    .gallery-item .image img:hover {
+      transform: scale(1.1);
+    }
+
+    .w-1 {
+      grid-column: span 1;
+    }
+
+    .w-2 {
+      grid-column: span 2;
+    }
+
+    .w-3 {
+      grid-column: span 3;
+    }
+
+    .w-4 {
+      grid-column: span 4;
+    }
+
+    .w-5 {
+      grid-column: span 5;
+    }
+
+    .h-1 {
+      grid-row: span 1;
+    }
+
+    .h-2 {
+      grid-row: span 2;
+    }
+
+    .h-3 {
+      grid-row: span 3;
+    }
+
+    .h-4 {
+      grid-row: span 4;
+    }
+
+    .h-5 {
+      grid-row: span 5;
+    }
+
+    /* ***** LIGHTBOX EFFECT ***** */
+
+    #lightbox {
+      position: fixed;
+      z-index: 5;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .92);
+      display: none;
+    }
+
+    #lightbox.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      padding: 4px;
+      /* border-radius: 1%; */
+      /* background-color: white; */
+      border: 0.2px solid silver;
+    }
+
+    /* Generic Styles */
+    :root {
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    html {
+      height: 100%;
+      font-family: sans-serif;
+      font-size: 16px;
+      /* avoid viewport-width font sizing which can cause layout overflow */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      height: 100vh;
+      min-width: 100%;
+      /* use percent so scrollbar width doesn't force horizontal overflow */
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      /* safety: prevent accidental horizontal scroll from small rounding errors */
+    }
+
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      background: -webkit-linear-gradient(130deg, #A155DA, #41B3A3);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @media only screen and (max-width: 800px) {
+      .gallery-wrapper {
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-rows: 1fr;
+        grid-gap: 2;
+        grid-auto-flow: dense;
+      }
+
+      .gallery-container:nth-child(3n+2) {
+        grid-column: 1 / span 2;
+        grid-row-end: span 2;
+      }
+
+      .gallery-container:nth-child(4n+3) {
+        grid-column: 2 / span 1;
+        grid-row-end: span 2;
+      }
+
+      /*  reseting the css for the class within the divs to show a different way to achieve grid control using the nth childs*/
+      .w-1,
+      .w-2,
+      .w-3,
+      .w-4,
+      .w-5 {
+        grid-column: span 1;
+      }
+
+      .h-1,
+      .h-2,
+      .h-3,
+      .h-4,
+      .h-5 {
+        grid-row: span 1;
+      }
+
+    }
+
+    @media only screen and (max-width: 400px) {
+
+      /* An example to use combined with flex but could also be grids with different repetition of columns  */
+      .gallery-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: wrap;
+        gap: 2.5rem;
+        margin: 1rem;
+        /* reduced to avoid overflowing the viewport on small screens */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar d-flex flex-column">
+      <div class="px-3 mb-3 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-robot" style="font-size:1.25rem;color:#7dd3fc"></i>
+          <div class="brand">Bottola AI</div>
+        </div>
+        <button id="sidebar-close" class="btn btn-sm btn-outline-light d-none d-lg-inline" title="Collapse sidebar"><i
+            class="bi bi-chevron-left"></i></button>
+      </div>
+
+      <nav class="nav flex-column px-2 gap-1">
+        <a class="nav-link d-flex align-items-center active" href="#">
+          <i class="bi bi-chat-left-text me-2"></i>
+          <span>Chats</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-lightning-charge me-2"></i>
+          <span>Quick Prompts</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-image me-2"></i>
+          <span>Images</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-play-btn me-2"></i>
+          <span>Videos</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-tools me-2"></i>
+          <span>All Tools</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-folder me-2"></i>
+          <span>Assets</span>
+        </a>
+      </nav>
+
+      <div class="mt-auto px-2">
+        <div class="d-grid gap-2 mb-3">
+          <button class="btn btn-outline-light d-flex align-items-center justify-content-start" title="Settings">
+            <i class="bi bi-gear me-2"></i>
+            <span>Settings</span>
+          </button>
+          <button class="btn btn-primary d-flex align-items-center justify-content-start" title="Sign Out">
+            <i class="bi bi-box-arrow-right me-2"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-center">
+          <!-- Social icon-only buttons -->
+          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content d-flex flex-column p-3">
+
+      <!-- Top AD small 3 cards -->
+      <section class="mb-3">
+        <div class="video_container">
+          <video autoplay loop muted playsinline class="w-100">
+            <source src="./car.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </section>
+
+      <!-- Tabs + Search -->
+      <section class="mb-3">
+        <div class="d-flex flex-column flex-sm-row gap-2 align-items-start align-items-sm-center">
+          <ul class="nav nav-pills me-2" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Recommendations</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img-tab-pane"
+                type="button" role="tab" aria-controls="img-tab-pane" aria-selected="true">AI Images</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">AI Videos</button>
+            </li>
+          </ul>
+
+          <div class="ms-auto w-100 w-sm-50 search_area bg-sec" style="max-width:420px;">
+            <div class="input-group">
+              <span class="input-group-text input-group-prepend"><i class="bi bi-search"></i></span>
+              <input id="asset-search" type="search" class="form-control" placeholder="Search images & videos"
+                aria-label="Search assets">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tab contents -->
+      <section class="flex-grow-1 d-flex flex-column mb-3">
+        <div class="tab-content h-100 d-flex flex-column">
+          <!-- Recommendation Tab (default) -->
+          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0">
+            <div id="gallery">
+              <div class="gallery-wrapper">
+
+                <div class="gallery-container h-2">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container h-2 w-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2 h-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2 h-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://loremflickr.com/320/240?random=13">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://loremflickr.com/320/240?random=43">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- AI Images Tab (default) -->
+          <div class="tab-pane fade" id="img-tab-pane" role="tabpanel" aria-labelledby="img-tab"
+            tabindex="0">
+            <div id="gallery">
+              <div class="gallery-wrapper">
+
+                <div class="gallery-container h-2">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container h-2 w-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2 h-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2 h-3">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://loremflickr.com/320/240?random=13">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://loremflickr.com/320/240?random=43">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container w-2">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gallery-container">
+                  <div class="gallery-item">
+                    <div class="image">
+                      <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- AI Videos Tab -->
+          <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- Composer / Prompt area -->
+      <section class="composer bg-sec">
+        <div class="d-flex gap-2 align-items-center">
+          <button class="btn btn-outline-secondary" title="Attach"><i class="bi bi-paperclip"></i></button>
+          <div class="flex-grow-1">
+            <textarea id="prompt" class="form-control" rows="1" placeholder="Write a prompt or message..."
+              style="resize:none;"></textarea>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="gen-image" class="btn btn-outline-primary" title="Generate Image"><i
+                class="bi bi-image"></i></button>
+            <button id="send" class="btn btn-primary" title="Send"><i class="bi bi-send-fill"></i></button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <!-- Bootstrap bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Sidebar toggle logic: supports desktop collapsed state and mobile off-canvas
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+    const mainContent = document.querySelector('.main-content');
+
+    // load persisted collapsed state
+    const COLLAPSE_KEY = 'sidebar-collapsed';
+    function setCollapsed(val) {
+      if (val) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed');
+      // ensure main margin sync (CSS also handles sibling selector but keep safe)
+      if (sidebar.classList.contains('collapsed')) {
+        mainContent.style.marginLeft = 'var(--sidebar-collapsed)';
+      } else {
+        mainContent.style.marginLeft = '';
+      }
+      try { localStorage.setItem(COLLAPSE_KEY, val ? '1' : '0'); } catch (e) { }
+    }
+
+    // Mobile show/hide
+    function openSidebarMobile() { sidebar.classList.add('show-mobile'); }
+    function closeSidebarMobile() { sidebar.classList.remove('show-mobile'); }
+
+    // toggle button (mobile primarily)
+    toggle?.addEventListener('click', () => {
+      if (window.innerWidth < 992) {
+        // mobile: show/hide drawer
+        if (sidebar.classList.contains('show-mobile')) closeSidebarMobile(); else openSidebarMobile();
+      } else {
+        // desktop: toggle collapsed state
+        setCollapsed(!sidebar.classList.contains('collapsed'));
+      }
+    });
+
+    // Close chevron (desktop) should toggle collapsed state
+    closeBtn?.addEventListener('click', () => {
+      setCollapsed(!sidebar.classList.contains('collapsed'));
+    });
+
+    // initialize collapse from storage
+    const stored = (function () { try { return localStorage.getItem(COLLAPSE_KEY); } catch (e) { return null; } })();
+    if (stored === '1') setCollapsed(true);
+
+    // Close mobile sidebar when clicking outside (for better UX)
+    document.addEventListener('click', (ev) => {
+      if (window.innerWidth >= 992) return; // only mobile
+      if (!sidebar.classList.contains('show-mobile')) return;
+      if (sidebar.contains(ev.target) || ev.target === toggle) return;
+      closeSidebarMobile();
+    });
+
+    // Simple asset search to filter images/videos
+    const search = document.getElementById('asset-search');
+    search?.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      // filter images
+      document.querySelectorAll('#images-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+      // filter videos (by alt text)
+      document.querySelectorAll('#videos-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+    });
+
+    // Responsive adjustments when resizing
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 992) {
+          // ensure mobile class removed
+          sidebar.classList.remove('show-mobile');
+          // ensure main margin reflects collapsed state
+          if (sidebar.classList.contains('collapsed')) mainContent.style.marginLeft = 'var(--sidebar-collapsed)'; else mainContent.style.marginLeft = '';
+        } else {
+          // on mobile don't keep desktop margin
+          mainContent.style.marginLeft = '';
+        }
+      }, 120);
+    });
+
+    // Thumbnail click -> preview modal & download
+    const previewModalEl = document.getElementById('previewModal');
+    const previewModal = new bootstrap.Modal(previewModalEl);
+    const previewContainer = document.getElementById('previewContainer');
+    const previewDownload = document.getElementById('previewDownload');
+
+    // Auto-resize composer textarea
+    const textarea = document.getElementById('prompt');
+    function autosize(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.min(window.innerHeight * 0.25, el.scrollHeight) + 'px';
+    }
+    autosize(textarea);
+    textarea?.addEventListener('input', () => autosize(textarea));
+    textarea?.addEventListener('focus', () => {
+      // on mobile, ensure composer visible
+      setTimeout(() => textarea.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+    });
+
+    async function fetchAsBlob(url) {
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        const blob = await res.blob();
+        return blob;
+      } catch (e) { console.error('Fetch failed', e); return null; }
+    }
+
+    // handler for both images and videos
+    function openPreview(type, src, suggestedName) {
+      previewContainer.innerHTML = '';
+      previewDownload.removeAttribute('href');
+      previewDownload.removeAttribute('download');
+
+      if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'img-fluid rounded';
+        img.style.maxHeight = '72vh';
+        previewContainer.appendChild(img);
+
+        // prepare download via blob
+        previewDownload.textContent = 'Download Image';
+        previewDownload.onclick = async () => {
+          previewDownload.classList.add('disabled');
+          const blob = await fetchAsBlob(src);
+          if (!blob) { previewDownload.classList.remove('disabled'); return; }
+          const url = URL.createObjectURL(blob);
+          previewDownload.href = url;
+          previewDownload.download = suggestedName || 'ai-image.jpg';
+          previewDownload.classList.remove('disabled');
+        };
+
+      } else if (type === 'video') {
+        const video = document.createElement('video');
+        video.src = src;
+        video.controls = true;
+        video.className = 'w-100 rounded';
+        video.style.maxHeight = '72vh';
+        previewContainer.appendChild(video);
+
+        previewDownload.textContent = 'Download Video';
+        previewDownload.onclick = async () => {
+          previewDownload.classList.add('disabled');
+          const blob = await fetchAsBlob(src);
+          if (!blob) { previewDownload.classList.remove('disabled'); return; }
+          const url = URL.createObjectURL(blob);
+          previewDownload.href = url;
+          previewDownload.download = suggestedName || 'ai-video.mp4';
+          previewDownload.classList.remove('disabled');
+        };
+      }
+
+      previewModal.show();
+    }
+
+    // wire up thumbnails clickable
+    document.addEventListener('click', async (ev) => {
+      const c = ev.target.closest('.clickable');
+      if (c) {
+        const type = c.getAttribute('data-type');
+        const src = c.getAttribute('data-src');
+        const alt = (c.getAttribute('alt') || '').replace(/\s+/g, '-').toLowerCase();
+        const name = type === 'image' ? (alt || 'ai-image') + '.jpg' : (alt || 'ai-video') + '.mp4';
+        openPreview(type, src, name);
+        return;
+      }
+
+      // download buttons on thumbnails
+      const dl = ev.target.closest('[download]');
+      if (dl && dl.hasAttribute('data-src')) {
+        ev.preventDefault();
+        const src = dl.getAttribute('data-src');
+        const suggested = dl.getAttribute('download') || (src.split('/').pop());
+        // fetch blob and trigger download
+        dl.classList.add('disabled');
+        const blob = await fetchAsBlob(src);
+        dl.classList.remove('disabled');
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = suggested;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+    });
+
+
+    //  ***** LIGHTBOX AREA  ***** 
+    const lightbox = document.createElement('div')
+    const images = document.querySelectorAll('img:not(.profile)')
+    lightbox.id = 'lightbox'
+    document.body.appendChild(lightbox)
+
+    images.forEach(image => {
+      image.addEventListener('click', e => {
+        lightbox.classList.add('active')
+        const img = document.createElement('img')
+        img.src = image.src
+        while (lightbox.firstChild) {
+          lightbox.removeChild(lightbox.firstChild)
+        }
+        lightbox.appendChild(img)
+        //  This blocks the background from scolling when lightbox is open - must set overflow in main css otherwise on the first time you click on the modal the page will scroll to the top
+        document.body.style.overflowY = 'hidden'
+      })
+    })
+
+    lightbox.addEventListener('click', e => {
+      if (e.target !== e.currentTarget) return
+      lightbox.classList.remove('active')
+      document.body.style.overflowY = 'scroll'
+    })
+  </script>
+</body>
+
+</html>
