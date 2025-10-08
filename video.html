@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text to Video — Bottola AI</title>
+  <link rel="shortcut icon" href="./bottola_ai_coin.png" type="image/x-icon">
+  <!-- Bootstrap 5 (latest) CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    /* main css   */
+    :root {
+      --sidebar-width: 260px;
+      --sidebar-collapsed: 72px;
+    }
+
+    html,
+    body,
+    #app {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: #11220f;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-size: 0.75em;
+    }
+
+    button {
+      font-size: 0.75rem !important;
+    }
+
+    .bg-sec {
+      background-color: #172c15 !important;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 1rem 0.5rem;
+      background: #11220f;
+      /* dark */
+      color: #e6eef8;
+      overflow-y: auto;
+      transition: transform .22s ease, width .22s ease;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* collapsed (desktop) */
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed);
+    }
+
+    #sidebar-close {
+      width: 30px;
+      margin-left: auto;
+    }
+
+    .sidebar.collapsed #sidebar-close {
+      margin-left: 13px;
+    }
+
+    /* hide text when collapsed */
+    .sidebar.collapsed .brand,
+    .sidebar.collapsed .nav-link span,
+    .sidebar.collapsed .d-grid button span {
+      display: none;
+    }
+
+    .sidebar.collapsed .nav-link {
+      padding-left: .6rem;
+      padding-right: .6rem;
+    }
+
+    .sidebar .nav-link {
+      color: #cfe3ff;
+      border-radius: 10px;
+      padding: .65rem .75rem;
+    }
+
+    button,
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar .brand {
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 1.05rem;
+    }
+
+    aside.collapsed .social_links {
+      flex-direction: column;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left .22s ease, width .22s ease;
+    }
+
+    .video_container {
+      height: 150px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    /* when collapsed adjust main margin */
+    .sidebar.collapsed+.main-content,
+    .sidebar.collapsed~.main-content {
+      margin-left: var(--sidebar-collapsed);
+      width: calc(100% - var(--sidebar-collapsed));
+    }
+
+    /* Top AD cards */
+    .ad-card {
+      min-height: 58px;
+    }
+
+    /* Search Area */
+    .search_area span {
+      background: #fff0;
+      color: #f5f5f5;
+    }
+
+    .search_area input {
+      background: #fff0;
+    }
+
+    /* Dark-friendly placeholder colors (search, forms, textarea) */
+    .search_area input::placeholder,
+    .form-control::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+      /* ensure consistent opacity across browsers */
+    }
+
+    /* vendor prefixes */
+    .search_area input::-webkit-input-placeholder,
+    .form-control::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input:-ms-input-placeholder,
+    .form-control:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-ms-input-placeholder,
+    .form-control::-ms-input-placeholder,
+    textarea::-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-moz-placeholder,
+    .form-control::-moz-placeholder,
+    textarea::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+    }
+
+    /* Chat area */
+    .chat-window {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 6px 18px rgba(20, 24, 40, 0.06);
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: #eef6ff;
+      color: #04253a;
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      max-width: 78%;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: #0b63ff;
+      color: white;
+      padding: .6rem .9rem;
+      border-radius: 12px;
+      max-width: 78%;
+    }
+
+    /* Bottom prompt */
+
+    .asset-thumb {
+      border-radius: 8px;
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    /* Ensure images inside ratio containers cover the area */
+    .ratio img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ensure ratio container positions children relative */
+    .ratio {
+      position: relative;
+    }
+
+    /* ensure download button sits above the overlay */
+    .position-relative .btn {
+      z-index: 3;
+    }
+
+    .play-overlay {
+      z-index: 2;
+    }
+
+    /* clickable cursors */
+    .clickable {
+      cursor: pointer;
+    }
+
+    /* play overlay for video thumbnails */
+    .play-overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    /* remove extra gap above tab inner cards */
+    .tab-pane>.bg-white {
+      margin-top: 0 !important;
+    }
+
+    /* Dark-theme surfaces and controls */
+    :root {
+      --surface-1: #071028;
+      /* panels */
+      --surface-2: #0b1220;
+      /* cards */
+      --muted: rgba(255, 255, 255, 0.65);
+      --muted-2: rgba(255, 255, 255, 0.45);
+      --input-border: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Card / panel surfaces used for image/video grids */
+    .tab-content .rounded-3.p-3.shadow-sm {
+      background: var(--surface-2);
+      color: #e6eef8;
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Chat window (if present) dark surface */
+    .chat-window {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Inputs & search */
+    .search_area .input-group-text,
+    .search_area .form-control {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--input-border);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: antiquewhite;
+    }
+
+    /* form controls in composer */
+    .composer .form-control {
+      background: transparent;
+      color: #e6eef8;
+      border: 1px solid var(--input-border);
+    }
+
+    /* asset thumbnails look good on dark */
+    .asset-thumb {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Nav pills on dark background */
+    .nav-pills .nav-link {
+      color: #cfe3ff;
+    }
+
+    .nav-pills .nav-link.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    /* Modal into dark surface */
+    .modal-content {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .modal .btn-close {
+      filter: invert(1) brightness(2);
+      opacity: .9;
+    }
+
+    /* Buttons: make outline-light more visible on dark */
+    .btn-outline-light {
+      color: #e6eef8;
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+
+    /* Composer fixed to bottom */
+    .composer {
+      position: fixed;
+      bottom: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      padding: .75rem;
+      z-index: 4;
+      box-shadow: 0 -6px 18px rgba(20, 24, 40, 0.06);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    /* adjust when sidebar collapsed */
+    .sidebar.collapsed~.main-content .composer {
+      left: var(--sidebar-collapsed);
+    }
+
+    /* mobile: composer spans full width */
+    @media (max-width: 991.98px) {
+      .composer {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    /* reserve space so content is not hidden behind composer */
+    .main-content {
+      padding-bottom: 92px;
+    }
+
+    /* Small screens: collapse sidebar into off-canvas */
+    @media (max-width: 991.98px) {
+      .sidebar {
+        transform: translateX(-120%);
+        z-index: 4;
+      }
+
+      .sidebar.show-mobile {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      /* when off-canvas is open, ensure full width display */
+      .sidebar.show-mobile.collapsed {
+        width: var(--sidebar-width);
+      }
+    }
+
+    /* Ensure ad-cards stack nicely on mobile */
+    @media (max-width: 575.98px) {
+      .ad-wrapper .col {
+        margin-bottom: .5rem;
+      }
+    }
+
+    /* *****  GALLERIES ***** */
+
+    .gallery-wrapper {
+      /* padding: 2rem 7rem;  */
+      display: grid;
+      justify-content: center;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: auto;
+      grid-gap: 0.3rem;
+      grid-auto-flow: dense;
+    }
+
+    /* Another way to do the same without declaring in the classes - remove h-x w-x from classes */
+    /* .gallery-wrapper {
+  padding: 2rem 10rem;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 300px);
+  grid-auto-rows: 200px;
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+} */
+
+
+    .gallery-item {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      filter: drop-shadow(2px 2px 3px #333);
+    }
+
+    .gallery-item .image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      cursor: pointer;
+      transition: all 400ms ease-in;
+      transform: scale(1);
+    }
+
+    .gallery-item .image img:hover {
+      transform: scale(1.1);
+    }
+
+    .recreate_btn {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      padding: 5px 30px;
+      transition: all 400ms ease-in;
+      background: #172c15a8;
+      border-radius: 15px;
+      min-width: 80%;
+    }
+
+    .gallery-item .image:hover .recreate_btn {
+      transform: translate(-50%, -10%);
+    }
+
+    .w-1 {
+      grid-column: span 1;
+    }
+
+    .w-2 {
+      grid-column: span 2;
+    }
+
+    .w-3 {
+      grid-column: span 3;
+    }
+
+    .w-4 {
+      grid-column: span 4;
+    }
+
+    .w-5 {
+      grid-column: span 5;
+    }
+
+    .h-1 {
+      grid-row: span 1;
+    }
+
+    .h-2 {
+      grid-row: span 2;
+    }
+
+    .h-3 {
+      grid-row: span 3;
+    }
+
+    .h-4 {
+      grid-row: span 4;
+    }
+
+    .h-5 {
+      grid-row: span 5;
+    }
+
+    /* ***** LIGHTBOX EFFECT ***** */
+
+    #lightbox {
+      position: fixed;
+      z-index: 5;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .92);
+      display: none;
+    }
+
+    #lightbox.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      padding: 4px;
+      /* border-radius: 1%; */
+      /* background-color: white; */
+      border: 0.2px solid silver;
+    }
+
+    /* Generic Styles */
+    :root {
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    html {
+      height: 100%;
+      font-family: sans-serif;
+      font-size: 16px;
+      /* avoid viewport-width font sizing which can cause layout overflow */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      height: 100vh;
+      min-width: 100%;
+      /* use percent so scrollbar width doesn't force horizontal overflow */
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      /* safety: prevent accidental horizontal scroll from small rounding errors */
+    }
+
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      background: -webkit-linear-gradient(130deg, #A155DA, #41B3A3);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @media only screen and (max-width: 800px) {
+      .gallery-wrapper {
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-rows: 1fr;
+        grid-gap: 2;
+        grid-auto-flow: dense;
+      }
+
+      .gallery-container:nth-child(3n+2) {
+        grid-column: 1 / span 2;
+        grid-row-end: span 2;
+      }
+
+      .gallery-container:nth-child(4n+3) {
+        grid-column: 2 / span 1;
+        grid-row-end: span 2;
+      }
+
+      /*  reseting the css for the class within the divs to show a different way to achieve grid control using the nth childs*/
+      .w-1,
+      .w-2,
+      .w-3,
+      .w-4,
+      .w-5 {
+        grid-column: span 1;
+      }
+
+      .h-1,
+      .h-2,
+      .h-3,
+      .h-4,
+      .h-5 {
+        grid-row: span 1;
+      }
+
+    }
+
+    @media only screen and (max-width: 400px) {
+
+      /* An example to use combined with flex but could also be grids with different repetition of columns  */
+      .gallery-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: wrap;
+        gap: 2.5rem;
+        margin: 1rem;
+        /* reduced to avoid overflowing the viewport on small screens */
+      }
+    }
+
+
+    /* /main */
+    /* Text to Images page */
+    :root {
+      --sidebar: #0f1724;
+      --card: #0b1220;
+      --muted: rgba(255, 255, 255, 0.65);
+      --accent1: #A155DA;
+      --accent2: #41B3A3
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, var(--sidebar), #041021);
+      color: #e6eef8;
+      font-family: Inter, system-ui, Roboto, Arial
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh
+    }
+
+    /* left sidebar (like KlingAI) */
+    .left-col {
+      width: 320px;
+      padding: 1rem;
+      background: var(--sidebar);
+      border-right: 1px solid rgba(255, 255, 255, 0.02)
+    }
+
+    .main-col {
+      flex: 1;
+      padding: 1.25rem
+    }
+
+    @media (max-width:991.98px) {
+      .left-col {
+        width: 100%;
+        position: relative;
+        border-right: 0
+      }
+
+      .app-shell {
+        flex-direction: column
+      }
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.6)
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    textarea.form-control {
+      background: transparent;
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      min-height: 120px
+    }
+
+    .form-control,
+    .form-select {
+      background: transparent;
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.06)
+    }
+
+    .btn-gen {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border: 0
+    }
+
+    /* results grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px
+    }
+
+    .thumb {
+      border-radius: 10px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.03)
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block
+    }
+
+    .thumb .meta {
+      padding: .5rem;
+      font-size: .85rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    /* preview overlay */
+    .play-overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      z-index: 20
+    }
+
+    /* small helpers */
+    .small-muted {
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    .top-actions {
+      display: flex;
+      gap: .5rem;
+      align-items: center
+    }
+
+    /* /Text to Images page */
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar d-flex flex-column">
+      <div class="px-3 mb-3 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <!-- <i class="bi bi-robot" style="font-size:1.25rem;color:#7dd3fc"></i> -->
+          <img src="./bottola_ai_coin.png" alt="" width="30px" height="30px">
+          <div class="brand">Bottola AI</div>
+        </div>
+      </div>
+      <button id="sidebar-close" class="btn btn-sm btn-outline-light d-none d-lg-inline" title="Collapse sidebar"><i
+          class="bi bi-list"></i></button>
+      <br>
+      <nav class="nav flex-column px-2 gap-1">
+        <a class="nav-link d-flex align-items-center" href="./index.html">
+          <i class="bi bi-chat-left-text me-2"></i>
+          <span>Chats</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-lightning-charge me-2"></i>
+          <span>Quick Prompts</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="./image.html">
+          <i class="bi bi-image me-2"></i>
+          <span>Images</span>
+        </a>
+        <a class="nav-link d-flex align-items-center active" href="./video.html">
+          <i class="bi bi-play-btn me-2"></i>
+          <span>Videos</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-tools me-2"></i>
+          <span>All Tools</span>
+        </a>
+        <a class="nav-link d-flex align-items-center" href="#">
+          <i class="bi bi-folder me-2"></i>
+          <span>Assets</span>
+        </a>
+      </nav>
+
+      <div class="mt-auto px-2">
+        <div class="d-grid gap-2 mb-3">
+          <button class="nav-link d-flex align-items-center justify-content-start" title="Credits">
+            <img src="./bottola_ai_coin.png" alt="" width="15px" class="me-2">
+            <span>You have: <b>59</b> credit</span>
+          </button>
+          <button class="btn btn-outline-light d-flex align-items-center justify-content-start" title="Settings">
+            <i class="bi bi-gear me-2"></i>
+            <span>Settings</span>
+          </button>
+          <button class="btn btn-primary d-flex align-items-center justify-content-start" title="Sign Out">
+            <i class="bi bi-box-arrow-right me-2"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+
+        <div class="social_links d-flex gap-2 justify-content-center">
+          <!-- Social icon-only buttons -->
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content d-flex flex-column p-3 ps-0">
+
+      <div class="app-shell">
+        <aside class="left-col">
+          <!-- <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-robot" style="font-size:1.3rem;color:#7dd3fc"></i>
+              <div>
+                <div style="font-weight:700">Bottola AI</div>
+                <div class="small-muted">Text → Image</div>
+              </div>
+            </div>
+            <a href="index.html" class="btn btn-sm btn-outline-light">Back</a>
+          </div> -->
+
+          <div class="panel mb-3">
+            <label class="form-label small-muted">Prompt</label>
+            <textarea id="prompt" class="form-control mb-2"
+              placeholder="A futuristic neon city at night, cinematic lighting, ultradetailed"></textarea>
+
+            <div class="row g-2 mb-2">
+              <div class="col-6">
+                <label class="form-label small-muted">Style</label>
+                <select id="style" class="form-select">
+                  <option>Photorealistic</option>
+                  <option>Digital art</option>
+                  <option>Anime</option>
+                  <option>Concept art</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <label class="form-label small-muted">Aspect</label>
+                <select id="aspect" class="form-select">
+                  <option>16:9</option>
+                  <option>1:1</option>
+                  <option>9:16</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <input id="count" type="number" class="form-control" value="4" min="1" max="8" style="width:86px" />
+              <div class="ms-auto small-muted">Images</div>
+            </div>
+
+            <div class="d-grid">
+              <button id="generate" class="btn btn-gen btn-lg">Generate</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="small-muted mb-2">Quick Presets</div>
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-sm btn-outline-light preset">Cinematic</button>
+              <button class="btn btn-sm btn-outline-light preset">Studio</button>
+              <button class="btn btn-sm btn-outline-light preset">Cyberpunk</button>
+              <button class="btn btn-sm btn-outline-light preset">Nature</button>
+            </div>
+          </div>
+        </aside>
+
+        <main class="main-col">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="small-muted">Results</div>
+            <div class="top-actions">
+              <input id="search" class="form-control form-control-sm"
+                style="width:260px;background:transparent;border:1px solid rgba(255,255,255,0.06)"
+                placeholder="Search results" />
+              <button id="clear" class="btn btn-sm btn-outline-light">Clear</button>
+            </div>
+          </div>
+
+          <div id="results" class="results-grid"></div>
+        </main>
+      </div>
+
+      <!-- Preview modal -->
+      <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Preview</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+              <img id="previewImage" src="" class="img-fluid rounded" alt="preview" style="max-height:72vh" />
+            </div>
+            <div class="modal-footer">
+              <a id="downloadBtn" class="btn btn-primary" download><i class="bi bi-download me-1"></i>Download</a>
+              <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Bootstrap bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+    // Hide/show composer on scroll
+    const mycomposer = document.getElementById("composer");
+    let prevScrollPos = window.pageYOffset;
+
+    window.addEventListener("scroll", function () {
+      const currentScrollPos = window.pageYOffset;
+
+      if (prevScrollPos < currentScrollPos) {
+        // Scrolling down
+        mycomposer.style.transform = "translateY(250%)"; // Example: slide up and out of view
+      } else {
+        // Scrolling up
+        mycomposer.style.transform = "translateY(0)"; // Example: slide back into view
+      }
+      prevScrollPos = currentScrollPos;
+    });
+
+
+    //  ***** LIGHTBOX AREA  ***** 
+    const lightbox = document.createElement('div')
+    const images = document.querySelectorAll('img:not(.profile)')
+    lightbox.id = 'lightbox'
+    document.body.appendChild(lightbox)
+
+    images.forEach(image => {
+      image.addEventListener('click', e => {
+        lightbox.classList.add('active')
+        const img = document.createElement('img')
+        img.src = image.src
+        while (lightbox.firstChild) {
+          lightbox.removeChild(lightbox.firstChild)
+        }
+        lightbox.appendChild(img)
+        //  This blocks the background from scolling when lightbox is open - must set overflow in main css otherwise on the first time you click on the modal the page will scroll to the top
+        document.body.style.overflowY = 'hidden'
+      })
+    })
+
+    lightbox.addEventListener('click', e => {
+      if (e.target !== e.currentTarget) return
+      lightbox.classList.remove('active')
+      document.body.style.overflowY = 'scroll'
+    })
+
+
+    // Sidebar toggle logic: supports desktop collapsed state and mobile off-canvas
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+    const mainContent = document.querySelector('.main-content');
+
+    // load persisted collapsed state
+    const COLLAPSE_KEY = 'sidebar-collapsed';
+    function setCollapsed(val) {
+      if (val) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed');
+      // ensure main margin sync (CSS also handles sibling selector but keep safe)
+      if (sidebar.classList.contains('collapsed')) {
+        mainContent.style.marginLeft = 'var(--sidebar-collapsed)';
+      } else {
+        mainContent.style.marginLeft = '';
+      }
+      try { localStorage.setItem(COLLAPSE_KEY, val ? '1' : '0'); } catch (e) { }
+    }
+
+    // Mobile show/hide
+    function openSidebarMobile() { sidebar.classList.add('show-mobile'); }
+    function closeSidebarMobile() { sidebar.classList.remove('show-mobile'); }
+
+    // toggle button (mobile primarily)
+    toggle?.addEventListener('click', () => {
+      if (window.innerWidth < 992) {
+        // mobile: show/hide drawer
+        if (sidebar.classList.contains('show-mobile')) closeSidebarMobile(); else openSidebarMobile();
+      } else {
+        // desktop: toggle collapsed state
+        setCollapsed(!sidebar.classList.contains('collapsed'));
+      }
+    });
+
+    // Close chevron (desktop) should toggle collapsed state
+    closeBtn?.addEventListener('click', () => {
+      setCollapsed(!sidebar.classList.contains('collapsed'));
+    });
+
+    // initialize collapse from storage
+    const stored = (function () { try { return localStorage.getItem(COLLAPSE_KEY); } catch (e) { return null; } })();
+    if (stored === '1') setCollapsed(true);
+
+    // Close mobile sidebar when clicking outside (for better UX)
+    document.addEventListener('click', (ev) => {
+      if (window.innerWidth >= 992) return; // only mobile
+      if (!sidebar.classList.contains('show-mobile')) return;
+      if (sidebar.contains(ev.target) || ev.target === toggle) return;
+      closeSidebarMobile();
+    });
+
+    // Simple asset search to filter images/videos
+    const search = document.getElementById('asset-search');
+    search?.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      // filter images
+      document.querySelectorAll('#images-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+      // filter videos (by alt text)
+      document.querySelectorAll('#videos-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+    });
+
+    // Responsive adjustments when resizing
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 992) {
+          // ensure mobile class removed
+          sidebar.classList.remove('show-mobile');
+          // ensure main margin reflects collapsed state
+          if (sidebar.classList.contains('collapsed')) mainContent.style.marginLeft = 'var(--sidebar-collapsed)'; else mainContent.style.marginLeft = '';
+        } else {
+          // on mobile don't keep desktop margin
+          mainContent.style.marginLeft = '';
+        }
+      }, 120);
+    });
+
+    // Thumbnail click -> preview modal & download
+    const previewModalEl = document.getElementById('previewModal');
+    const previewModal = new bootstrap.Modal(previewModalEl);
+    const previewContainer = document.getElementById('previewContainer');
+    const previewDownload = document.getElementById('previewDownload');
+
+    // Auto-resize composer textarea
+    const textarea = document.getElementById('prompt');
+    function autosize(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.min(window.innerHeight * 0.25, el.scrollHeight) + 'px';
+    }
+    autosize(textarea);
+    textarea?.addEventListener('input', () => autosize(textarea));
+    textarea?.addEventListener('focus', () => {
+      // on mobile, ensure composer visible
+      setTimeout(() => textarea.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+    });
+
+    async function fetchAsBlob(url) {
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        const blob = await res.blob();
+        return blob;
+      } catch (e) { console.error('Fetch failed', e); return null; }
+    }
+
+
+
+  </script>
+</body>
+
+</html>

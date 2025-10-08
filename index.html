@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BotTola_AI</title>
+  <link rel="shortcut icon" href="./bottola_ai_coin.png" type="image/x-icon">
   <!-- Bootstrap 5 (latest) CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
@@ -51,9 +52,22 @@
       transition: transform .22s ease, width .22s ease;
     }
 
+    .sidebar::-webkit-scrollbar {
+      display: none;
+    }
+
     /* collapsed (desktop) */
     .sidebar.collapsed {
       width: var(--sidebar-collapsed);
+    }
+
+    #sidebar-close {
+      width: 30px;
+      margin-left: auto;
+    }
+
+    .sidebar.collapsed #sidebar-close {
+      margin-left: 13px;
     }
 
     /* hide text when collapsed */
@@ -74,6 +88,7 @@
       padding: .65rem .75rem;
     }
 
+    button,
     .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
       background: rgba(255, 255, 255, 0.04);
@@ -86,6 +101,10 @@
       font-size: 1.05rem;
     }
 
+    aside.collapsed .social_links {
+      flex-direction: column;
+    }
+
     .main-content {
       margin-left: var(--sidebar-width);
       width: calc(100% - var(--sidebar-width));
@@ -95,7 +114,7 @@
       transition: margin-left .22s ease, width .22s ease;
     }
 
-    .video_container{
+    .video_container {
       height: 150px;
       overflow: hidden;
       display: flex;
@@ -350,6 +369,7 @@
       padding: .75rem;
       z-index: 4;
       box-shadow: 0 -6px 18px rgba(20, 24, 40, 0.06);
+      transition: transform 0.4s ease-in-out;
     }
 
     /* adjust when sidebar collapsed */
@@ -437,6 +457,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      position: relative;
     }
 
     .gallery-item .image img {
@@ -451,6 +472,22 @@
 
     .gallery-item .image img:hover {
       transform: scale(1.1);
+    }
+
+    .recreate_btn {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      padding: 5px 30px;
+      transition: all 400ms ease-in;
+      background: #172c15a8;
+      border-radius: 15px;
+      min-width: 80%;
+    }
+
+    .gallery-item .image:hover .recreate_btn {
+      transform: translate(-50%, -10%);
     }
 
     .w-1 {
@@ -611,21 +648,23 @@
 </head>
 
 <body>
+
   <div id="app">
 
     <!-- Sidebar -->
     <aside class="sidebar d-flex flex-column">
       <div class="px-3 mb-3 d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-robot" style="font-size:1.25rem;color:#7dd3fc"></i>
+          <!-- <i class="bi bi-robot" style="font-size:1.25rem;color:#7dd3fc"></i> -->
+          <img src="./bottola_ai_coin.png" alt="" width="30px" height="30px">
           <div class="brand">Bottola AI</div>
         </div>
-        <button id="sidebar-close" class="btn btn-sm btn-outline-light d-none d-lg-inline" title="Collapse sidebar"><i
-            class="bi bi-chevron-left"></i></button>
       </div>
-
+      <button id="sidebar-close" class="btn btn-sm btn-outline-light d-none d-lg-inline" title="Collapse sidebar"><i
+          class="bi bi-list"></i></button>
+      <br>
       <nav class="nav flex-column px-2 gap-1">
-        <a class="nav-link d-flex align-items-center active" href="#">
+        <a class="nav-link d-flex align-items-center active" href="./index.html">
           <i class="bi bi-chat-left-text me-2"></i>
           <span>Chats</span>
         </a>
@@ -633,11 +672,11 @@
           <i class="bi bi-lightning-charge me-2"></i>
           <span>Quick Prompts</span>
         </a>
-        <a class="nav-link d-flex align-items-center" href="#">
+        <a class="nav-link d-flex align-items-center" href="./image.html">
           <i class="bi bi-image me-2"></i>
           <span>Images</span>
         </a>
-        <a class="nav-link d-flex align-items-center" href="#">
+        <a class="nav-link d-flex align-items-center" href="./video.html">
           <i class="bi bi-play-btn me-2"></i>
           <span>Videos</span>
         </a>
@@ -653,6 +692,10 @@
 
       <div class="mt-auto px-2">
         <div class="d-grid gap-2 mb-3">
+          <button class="nav-link d-flex align-items-center justify-content-start" title="Credits">
+            <img src="./bottola_ai_coin.png" alt="" width="15px" class="me-2">
+            <span>You have: <b>59</b> credit</span>
+          </button>
           <button class="btn btn-outline-light d-flex align-items-center justify-content-start" title="Settings">
             <i class="bi bi-gear me-2"></i>
             <span>Settings</span>
@@ -663,17 +706,18 @@
           </button>
         </div>
 
-        <div class="d-flex gap-2 justify-content-center">
+        <div class="social_links d-flex gap-2 justify-content-center">
           <!-- Social icon-only buttons -->
-          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
-          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-          <a class="btn btn-sm btn-outline-light p-2" href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a class="btn btn-sm btn-outline-light" href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
         </div>
       </div>
     </aside>
 
+
     <!-- Main content -->
-    <main class="main-content d-flex flex-column p-3">
+    <main class="main-content d-flex flex-column p-3 ps-0">
 
       <!-- Top AD small 3 cards -->
       <section class="mb-3">
@@ -694,8 +738,8 @@
                 type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Recommendations</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img-tab-pane"
-                type="button" role="tab" aria-controls="img-tab-pane" aria-selected="true">AI Images</button>
+              <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img-tab-pane" type="button"
+                role="tab" aria-controls="img-tab-pane" aria-selected="true">AI Images</button>
             </li>
             <li class="nav-item" role="presentation">
               <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
@@ -726,6 +770,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -734,6 +779,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -742,6 +788,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -750,6 +797,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -758,6 +806,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -766,6 +815,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -774,6 +824,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -782,6 +833,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -790,6 +842,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -798,6 +851,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -806,6 +860,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -814,6 +869,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -821,7 +877,9 @@
                 <div class="gallery-container">
                   <div class="gallery-item">
                     <div class="image">
-                      <img src="https://loremflickr.com/320/240?random=13">
+                      <img
+                        src="https://images.unsplash.com/photo-1505820013142-f86a3439c5b2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -830,6 +888,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -838,6 +897,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -845,7 +905,9 @@
                 <div class="gallery-container">
                   <div class="gallery-item">
                     <div class="image">
-                      <img src="https://loremflickr.com/320/240?random=43">
+                      <img
+                        src="https://images.unsplash.com/photo-1526281216101-e55f00f0db7a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -854,6 +916,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -862,6 +925,7 @@
                   <div class="gallery-item">
                     <div class="image">
                       <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
+                      <a href="#" class="recreate_btn text-light btn">Recreate</a>
                     </div>
                   </div>
                 </div>
@@ -871,158 +935,8 @@
             </div>
           </div>
           <!-- AI Images Tab (default) -->
-          <div class="tab-pane fade" id="img-tab-pane" role="tabpanel" aria-labelledby="img-tab"
-            tabindex="0">
-            <div id="gallery">
-              <div class="gallery-wrapper">
+          <div class="tab-pane fade" id="img-tab-pane" role="tabpanel" aria-labelledby="img-tab" tabindex="0">
 
-                <div class="gallery-container h-2">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container h-2 w-3">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container w-2 h-3">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container w-2 h-3">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://loremflickr.com/320/240?random=13">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://loremflickr.com/320/240?random=43">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container w-2">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="gallery-container">
-                  <div class="gallery-item">
-                    <div class="image">
-                      <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
           </div>
 
           <!-- AI Videos Tab -->
@@ -1035,8 +949,19 @@
 
 
       <!-- Composer / Prompt area -->
-      <section class="composer bg-sec">
-        <div class="d-flex gap-2 align-items-center">
+      <section class="composer bg-sec me-3" id="composer">
+        <div style="position: relative;">
+          <div class="d-flex m-auto"
+            style="width: 90%;position: fixed;top: -80%;left: auto;display: flex;justify-content: center;">
+            <div class="bg-sec nav" style="padding: 5px 10px;border-radius: 20px;">
+              <a href="#" class="btn text-light"><i class="bi bi-image me-2"></i></a>
+              <a href="#" class="btn text-light"><i class="bi bi-play-btn me-2"></i></a>
+              <a href="#" class="btn text-light"><i class="bi bi-tools me-2"></i></a>
+              <a href="#" class="btn text-light"><i class="bi bi-folder me-2"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class=" d-flex gap-2 align-items-center">
           <button class="btn btn-outline-secondary" title="Attach"><i class="bi bi-paperclip"></i></button>
           <div class="flex-grow-1">
             <textarea id="prompt" class="form-control" rows="1" placeholder="Write a prompt or message..."
@@ -1056,6 +981,52 @@
   <!-- Bootstrap bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+
+    // Hide/show composer on scroll
+    const mycomposer = document.getElementById("composer");
+    let prevScrollPos = window.pageYOffset;
+
+    window.addEventListener("scroll", function () {
+      const currentScrollPos = window.pageYOffset;
+
+      if (prevScrollPos < currentScrollPos) {
+        // Scrolling down
+        mycomposer.style.transform = "translateY(250%)"; // Example: slide up and out of view
+      } else {
+        // Scrolling up
+        mycomposer.style.transform = "translateY(0)"; // Example: slide back into view
+      }
+      prevScrollPos = currentScrollPos;
+    });
+
+
+    //  ***** LIGHTBOX AREA  ***** 
+    const lightbox = document.createElement('div')
+    const images = document.querySelectorAll('img:not(.profile)')
+    lightbox.id = 'lightbox'
+    document.body.appendChild(lightbox)
+
+    images.forEach(image => {
+      image.addEventListener('click', e => {
+        lightbox.classList.add('active')
+        const img = document.createElement('img')
+        img.src = image.src
+        while (lightbox.firstChild) {
+          lightbox.removeChild(lightbox.firstChild)
+        }
+        lightbox.appendChild(img)
+        //  This blocks the background from scolling when lightbox is open - must set overflow in main css otherwise on the first time you click on the modal the page will scroll to the top
+        document.body.style.overflowY = 'hidden'
+      })
+    })
+
+    lightbox.addEventListener('click', e => {
+      if (e.target !== e.currentTarget) return
+      lightbox.classList.remove('active')
+      document.body.style.overflowY = 'scroll'
+    })
+
+
     // Sidebar toggle logic: supports desktop collapsed state and mobile off-canvas
     const sidebar = document.querySelector('.sidebar');
     const toggle = document.getElementById('sidebar-toggle');
@@ -1168,114 +1139,8 @@
       } catch (e) { console.error('Fetch failed', e); return null; }
     }
 
-    // handler for both images and videos
-    function openPreview(type, src, suggestedName) {
-      previewContainer.innerHTML = '';
-      previewDownload.removeAttribute('href');
-      previewDownload.removeAttribute('download');
-
-      if (type === 'image') {
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'img-fluid rounded';
-        img.style.maxHeight = '72vh';
-        previewContainer.appendChild(img);
-
-        // prepare download via blob
-        previewDownload.textContent = 'Download Image';
-        previewDownload.onclick = async () => {
-          previewDownload.classList.add('disabled');
-          const blob = await fetchAsBlob(src);
-          if (!blob) { previewDownload.classList.remove('disabled'); return; }
-          const url = URL.createObjectURL(blob);
-          previewDownload.href = url;
-          previewDownload.download = suggestedName || 'ai-image.jpg';
-          previewDownload.classList.remove('disabled');
-        };
-
-      } else if (type === 'video') {
-        const video = document.createElement('video');
-        video.src = src;
-        video.controls = true;
-        video.className = 'w-100 rounded';
-        video.style.maxHeight = '72vh';
-        previewContainer.appendChild(video);
-
-        previewDownload.textContent = 'Download Video';
-        previewDownload.onclick = async () => {
-          previewDownload.classList.add('disabled');
-          const blob = await fetchAsBlob(src);
-          if (!blob) { previewDownload.classList.remove('disabled'); return; }
-          const url = URL.createObjectURL(blob);
-          previewDownload.href = url;
-          previewDownload.download = suggestedName || 'ai-video.mp4';
-          previewDownload.classList.remove('disabled');
-        };
-      }
-
-      previewModal.show();
-    }
-
-    // wire up thumbnails clickable
-    document.addEventListener('click', async (ev) => {
-      const c = ev.target.closest('.clickable');
-      if (c) {
-        const type = c.getAttribute('data-type');
-        const src = c.getAttribute('data-src');
-        const alt = (c.getAttribute('alt') || '').replace(/\s+/g, '-').toLowerCase();
-        const name = type === 'image' ? (alt || 'ai-image') + '.jpg' : (alt || 'ai-video') + '.mp4';
-        openPreview(type, src, name);
-        return;
-      }
-
-      // download buttons on thumbnails
-      const dl = ev.target.closest('[download]');
-      if (dl && dl.hasAttribute('data-src')) {
-        ev.preventDefault();
-        const src = dl.getAttribute('data-src');
-        const suggested = dl.getAttribute('download') || (src.split('/').pop());
-        // fetch blob and trigger download
-        dl.classList.add('disabled');
-        const blob = await fetchAsBlob(src);
-        dl.classList.remove('disabled');
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = suggested;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      }
-    });
 
 
-    //  ***** LIGHTBOX AREA  ***** 
-    const lightbox = document.createElement('div')
-    const images = document.querySelectorAll('img:not(.profile)')
-    lightbox.id = 'lightbox'
-    document.body.appendChild(lightbox)
-
-    images.forEach(image => {
-      image.addEventListener('click', e => {
-        lightbox.classList.add('active')
-        const img = document.createElement('img')
-        img.src = image.src
-        while (lightbox.firstChild) {
-          lightbox.removeChild(lightbox.firstChild)
-        }
-        lightbox.appendChild(img)
-        //  This blocks the background from scolling when lightbox is open - must set overflow in main css otherwise on the first time you click on the modal the page will scroll to the top
-        document.body.style.overflowY = 'hidden'
-      })
-    })
-
-    lightbox.addEventListener('click', e => {
-      if (e.target !== e.currentTarget) return
-      lightbox.classList.remove('active')
-      document.body.style.overflowY = 'scroll'
-    })
   </script>
 </body>
 
