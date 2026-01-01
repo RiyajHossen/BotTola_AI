@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+    
+
+    
+
+    /* Ensure images inside ratio containers cover the area */
+    .ratio img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ensure ratio container positions children relative */
+    .ratio {
+      position: relative;
+    }
+
+    /* ensure download button sits above the overlay */
+    .position-relative .btn {
+      z-index: 3;
+    }
+
+    .play-overlay {
+      z-index: 2;
+    }
+
+    /* clickable cursors */
+    .clickable {
+      cursor: pointer;
+    }
+
+    /* play overlay for video thumbnails */
+    .play-overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.45);
+      color: white;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    /* remove extra gap above tab inner cards */
+    .tab-pane>.bg-white {
+      margin-top: 0 !important;
+    }
+
+    /* Dark-theme surfaces and controls */
+    :root {
+      --surface-1: #071028;
+      /* panels */
+      --surface-2: #0b1220;
+      /* cards */
+      --muted: rgba(255, 255, 255, 0.65);
+      --muted-2: rgba(255, 255, 255, 0.45);
+      --input-border: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Card / panel surfaces used for image/video grids */
+    .tab-content .rounded-3.p-3.shadow-sm {
+      background: var(--surface-2);
+      color: #e6eef8;
+      box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Chat window (if present) dark surface */
+    .chat-window {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Inputs & search */
+    .search_area .input-group-text,
+    .search_area .form-control {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--input-border);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: antiquewhite;
+    }
+
+    /* form controls in composer */
+    .composer .form-control {
+      background: transparent;
+      color: #e6eef8;
+      border: 1px solid var(--input-border);
+    }
+
+    /* asset thumbnails look good on dark */
+    .asset-thumb {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* Nav pills on dark background */
+    .nav-pills .nav-link {
+      color: #cfe3ff;
+    }
+
+    .nav-pills .nav-link.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    /* Modal into dark surface */
+    .modal-content {
+      background: var(--surface-1);
+      color: #e6eef8;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .modal .btn-close {
+      filter: invert(1) brightness(2);
+      opacity: .9;
+    }
+
+    /* Buttons: make outline-light more visible on dark */
+    .btn-outline-light {
+      color: #e6eef8;
+      border-color: rgba(255, 255, 255, 0.06);
+    }
+
+
+    /* Composer fixed to bottom */
+    .composer {
+      position: fixed;
+      bottom: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      padding: .75rem;
+      z-index: 4;
+      box-shadow: 0 -6px 18px rgba(20, 24, 40, 0.06);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    /* adjust when sidebar collapsed */
+    .sidebar.collapsed~.main-content .composer {
+      left: var(--sidebar-collapsed);
+    }
+
+    /* mobile: composer spans full width */
+    @media (max-width: 991.98px) {
+      .composer {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    /* reserve space so content is not hidden behind composer */
+    .main-content {
+      padding-bottom: 92px;
+    }
+
+    /* Small screens: collapse sidebar into off-canvas */
+    @media (max-width: 991.98px) {
+      .sidebar {
+        transform: translateX(-120%);
+        z-index: 4;
+      }
+
+      .sidebar.show-mobile {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      /* when off-canvas is open, ensure full width display */
+      .sidebar.show-mobile.collapsed {
+        width: var(--sidebar-width);
+      }
+    }
+
+    /* Ensure ad-cards stack nicely on mobile */
+    @media (max-width: 575.98px) {
+      .ad-wrapper .col {
+        margin-bottom: .5rem;
+      }
+    }
+
+    /* *****  GALLERIES ***** */
+
+    .gallery-wrapper {
+      /* padding: 2rem 7rem;  */
+      display: grid;
+      justify-content: center;
+      grid-template-columns: repeat(5, 1fr);
+      grid-auto-rows: auto;
+      grid-gap: 0.3rem;
+      grid-auto-flow: dense;
+    }
+
+    /* Another way to do the same without declaring in the classes - remove h-x w-x from classes */
+    /* .gallery-wrapper {
+  padding: 2rem 10rem;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 300px);
+  grid-auto-rows: 200px;
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+} */
+
+
+    .gallery-item {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      filter: drop-shadow(2px 2px 3px #333);
+    }
+
+    .gallery-item .image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      cursor: pointer;
+      transition: all 400ms ease-in;
+      transform: scale(1);
+    }
+
+    .gallery-item .image img:hover {
+      transform: scale(1.1);
+    }
+
+    .recreate_btn {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      padding: 5px 30px;
+      transition: all 400ms ease-in;
+      background: #172c15a8;
+      border-radius: 15px;
+      min-width: 80%;
+    }
+
+    .gallery-item .image:hover .recreate_btn {
+      transform: translate(-50%, -10%);
+    }
+
+    .w-1 {
+      grid-column: span 1;
+    }
+
+    .w-2 {
+      grid-column: span 2;
+    }
+
+    .w-3 {
+      grid-column: span 3;
+    }
+
+    .w-4 {
+      grid-column: span 4;
+    }
+
+    .w-5 {
+      grid-column: span 5;
+    }
+
+    .h-1 {
+      grid-row: span 1;
+    }
+
+    .h-2 {
+      grid-row: span 2;
+    }
+
+    .h-3 {
+      grid-row: span 3;
+    }
+
+    .h-4 {
+      grid-row: span 4;
+    }
+
+    .h-5 {
+      grid-row: span 5;
+    }
+
+    /* ***** LIGHTBOX EFFECT ***** */
+
+    #lightbox {
+      position: fixed;
+      z-index: 5;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .92);
+      display: none;
+    }
+
+    #lightbox.active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      padding: 4px;
+      /* border-radius: 1%; */
+      /* background-color: white; */
+      border: 0.2px solid silver;
+    }
+
+    /* Generic Styles */
+    :root {
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    html {
+      height: 100%;
+      font-family: sans-serif;
+      font-size: 16px;
+      /* avoid viewport-width font sizing which can cause layout overflow */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      height: 100vh;
+      min-width: 100%;
+      /* use percent so scrollbar width doesn't force horizontal overflow */
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      /* safety: prevent accidental horizontal scroll from small rounding errors */
+    }
+
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      background: -webkit-linear-gradient(130deg, #A155DA, #41B3A3);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @media only screen and (max-width: 800px) {
+      .gallery-wrapper {
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-rows: 1fr;
+        grid-gap: 2;
+        grid-auto-flow: dense;
+      }
+
+      .gallery-container:nth-child(3n+2) {
+        grid-column: 1 / span 2;
+        grid-row-end: span 2;
+      }
+
+      .gallery-container:nth-child(4n+3) {
+        grid-column: 2 / span 1;
+        grid-row-end: span 2;
+      }
+
+      /*  reseting the css for the class within the divs to show a different way to achieve grid control using the nth childs*/
+      .w-1,
+      .w-2,
+      .w-3,
+      .w-4,
+      .w-5 {
+        grid-column: span 1;
+      }
+
+      .h-1,
+      .h-2,
+      .h-3,
+      .h-4,
+      .h-5 {
+        grid-row: span 1;
+      }
+
+    }
+
+    @media only screen and (max-width: 400px) {
+
+      /* An example to use combined with flex but could also be grids with different repetition of columns  */
+      .gallery-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: wrap;
+        gap: 2.5rem;
+        margin: 1rem;
+        /* reduced to avoid overflowing the viewport on small screens */
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        body {
+            font-size: 18px;
+            position: relative;
+            font-family: 'Roboto Mono';
+            background-color: #11220F;
+            padding-left:80px;
+        }
+
+        body * {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .row {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* aside */
+        aside {
+            font-size: 0.7em;
+            background-color: #0E0F0F;
+            width: 80px;
+            /* height:max-content; */
+            /* min-height: 100vh; */
+            height: 100vh;
+            padding: 5px;
+            text-align: center;
+            font-weight: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            /* overflow-y: auto; */
+            scrollbar-width: thin;
+        }
+
+        aside .logo {
+            padding: 10px;
+        }
+
+        aside .nav-pills .nav-link {
+            background: #0A600080;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 5px;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+
+        }
+
+        aside .nav-pills .nav-link:hover,
+        aside .nav-pills .nav-link.active {
+            background: #0a6000f8;
+        }
+
+        aside .nav-pills .nav-link img {
+            margin-bottom: 3px;
+            max-width: 40%;
+        }
+
+        aside .credit_info {
+            color: #FF8000;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1em;
+            display: block;
+            border: 1px solid #377330;
+            border-radius: 10px;
+        }
+
+        .notifiable {
+            position: relative;
+            display: inline-block;
+            color: white;
+            padding: 10px;
+            font-size: 1.2em;
+        }
+
+        .dot_badge {
+            position: absolute;
+            top: 5px;
+            /* Adjust as needed for vertical positioning */
+            right: 0px;
+            /* Adjust as needed for horizontal positioning */
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            /* Makes it a circle */
+            padding: 4px 8px;
+            /* Adjust for desired size and text padding */
+            font-size: 12px;
+            line-height: 1;
+            /* Prevents extra spacing around text */
+            text-align: center;
+            box-sizing: border-box;
+            /* Includes padding in width/height calculation */
+            padding: 5px;
+            /* Smaller padding for a simple dot */
+            width: 10px;
+            /* Adjust for dot size */
+            height: 10px;
+            /* Adjust for dot size */
+            content: '';
+            /* Required for empty span to render as a dot */
+        }
+
+        /* Aside */
+        main {
+            width: calc(100% - 100px);
+            height: 100vh;
+            padding: 10px 15px;
+        }
+
+        .ad_space {
+            height: 120px;
+            background: #fff;
+            border-radius: 10px;
+        }
+
+    /* Nav pills on dark background */
+    .nav-pills .nav-link {
+      color: #cfe3ff;
+      font-size: 0.8em;
+    }
+
+    .nav-pills .nav-link.active {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+        /* Search Area */
+    .search_area span {
+      background: #fff0;
+      color: #f5f5f5;
+      cursor:pointer;
+    }
+
+    .search_area input {
+      background: #fff0;
+    }
+    input#asset-search:focus {
+        background: inherit;
+        box-shadow: none;
+        border: 1px solid #fff;
+    }
+
+    /* Dark-friendly placeholder colors (search, forms, textarea) */
+    .search_area input::placeholder,
+    .form-control::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+      /* ensure consistent opacity across browsers */
+    }
+
+    /* vendor prefixes */
+    .search_area input::-webkit-input-placeholder,
+    .form-control::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input:-ms-input-placeholder,
+    .form-control:-ms-input-placeholder,
+    textarea:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-ms-input-placeholder,
+    .form-control::-ms-input-placeholder,
+    textarea::-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .search_area input::-moz-placeholder,
+    .form-control::-moz-placeholder,
+    textarea::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+    }
+
+    </style>
+</head>
+
+<body>
+    <aside>
+        <div class="d-flex flex-column flex-shrink-0">
+            <a href="/" class="d-flex align-items-center my-3 m-auto logo">
+                <img src="./icons/logo bottola_ai.png" alt="bottola_ai">
+            </a>
+
+            <ul class="nav nav-pills flex-column p-2">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" aria-current="page">
+                        <img src="./icons/explore.png" alt="">
+                        Explore
+                    </a>
+                </li>
+                <li class="nav-item mt-1">
+                    <a href="#" class="nav-link" aria-current="page">
+                        <img src="./icons/Asset.png" alt="">
+                        Asset
+                    </a>
+                </li>
+                <li class="nav-item mt-4">
+                    <a href="#" class="nav-link" aria-current="page">
+                        <img src="./icons/imageGen.png" alt="">
+                        ImageGen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" aria-current="page">
+                        <img src="./icons/videoGen.png" alt="">
+                        VideoGen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" aria-current="page">
+                        <img src="./icons/tolaLab.png" alt="">
+                        Asset
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="notifiable" aria-current="page">
+                        <i class="bi bi-bell"></i>
+                        <span class="dot_badge"></span>
+                    </a>
+                </li>
+                <li class="nav-item mt-1">
+                    <a href="#" class="notifiable" aria-current="page">
+                        <i class="bi bi-megaphone"></i>
+                        <span class="dot_badge"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <div>
+                <a href="#" class="btn" aria-current="page">
+                    <img src="./icons/userLogo.png" alt="">
+                </a>
+                <a href="#" class="credit_info" aria-current="page">
+                    <small>C#:3000</small>
+                    Standard
+                </a>
+            </div>
+        </div>
+
+    </aside>
+    <main>
+        <div class="ad_section">
+            <div class="row">
+                <div class="col-12 col-md-6 p-1">
+                    <div class="ad_space"></div>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <div class="ad_space"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6 p-1">
+                    <div class="ad_space"></div>
+                </div>
+                <div class="col-12 col-md-6 p-1">
+                    <div class="row p-0 m-0">
+                        <div class="col-6 p-0 pe-1">
+                            <div class="ad_space"></div>
+                        </div>
+                        <div class="col-6 p-0 ps-1">
+                            <div class="ad_space"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tabs + Search -->
+        <section class="my-2">
+            <div class="d-flex flex-column flex-sm-row gap-2 align-items-start align-items-sm-center">
+                <ul class="nav nav-pills me-2" id="mainTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                            data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                            aria-selected="true">Recommendations</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="img-tab" data-bs-toggle="tab" data-bs-target="#img-tab-pane"
+                            type="button" role="tab" aria-controls="img-tab-pane" aria-selected="true">AI
+                            Images</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                            data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                            aria-selected="false">AI Videos</button>
+                    </li>
+                </ul>
+
+                <div class="ms-auto w-100 w-sm-50 search_area bg-sec" style="max-width:420px;">
+                    <div class="input-group">
+                        <span class="input-group-text input-group-prepend"><i class="bi bi-search"></i></span>
+                        <input id="asset-search" type="search" class="form-control" placeholder="Search images & videos"
+                            aria-label="Search assets">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab contents -->
+        <section class="flex-grow-1 d-flex flex-column mb-3">
+            <div class="tab-content h-100 d-flex flex-column">
+                <!-- Recommendation Tab (default) -->
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                    tabindex="0">
+                    <div id="gallery">
+                        <div class="gallery-wrapper">
+
+                            <div class="gallery-container h-2">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container h-2 w-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2 h-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2 h-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1505820013142-f86a3439c5b2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1526281216101-e55f00f0db7a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- AI Images Tab (default) -->
+                <div class="tab-pane fade" id="img-tab-pane" role="tabpanel" aria-labelledby="img-tab" tabindex="0">
+
+                </div>
+
+                <!-- AI Videos Tab -->
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                    tabindex="0">
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+
+    // Hide/show composer on scroll
+    const mycomposer = document.getElementById("composer");
+    let prevScrollPos = window.pageYOffset;
+
+    window.addEventListener("scroll", function () {
+      const currentScrollPos = window.pageYOffset;
+
+      if (prevScrollPos < currentScrollPos) {
+        // Scrolling down
+        mycomposer.style.transform = "translateY(250%)"; // Example: slide up and out of view
+      } else {
+        // Scrolling up
+        mycomposer.style.transform = "translateY(0)"; // Example: slide back into view
+      }
+      prevScrollPos = currentScrollPos;
+    });
+
+
+    //  ***** LIGHTBOX AREA  ***** 
+    const lightbox = document.createElement('div')
+    const images = document.querySelectorAll('img:not(.profile)')
+    lightbox.id = 'lightbox'
+    document.body.appendChild(lightbox)
+
+    images.forEach(image => {
+      image.addEventListener('click', e => {
+        lightbox.classList.add('active')
+        const img = document.createElement('img')
+        img.src = image.src
+        while (lightbox.firstChild) {
+          lightbox.removeChild(lightbox.firstChild)
+        }
+        lightbox.appendChild(img)
+        //  This blocks the background from scolling when lightbox is open - must set overflow in main css otherwise on the first time you click on the modal the page will scroll to the top
+        document.body.style.overflowY = 'hidden'
+      })
+    })
+
+    lightbox.addEventListener('click', e => {
+      if (e.target !== e.currentTarget) return
+      lightbox.classList.remove('active')
+      document.body.style.overflowY = 'scroll'
+    })
+
+
+    // Sidebar toggle logic: supports desktop collapsed state and mobile off-canvas
+    const sidebar = document.querySelector('.sidebar');
+    const toggle = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+    const mainContent = document.querySelector('.main-content');
+
+    // load persisted collapsed state
+    const COLLAPSE_KEY = 'sidebar-collapsed';
+    function setCollapsed(val) {
+      if (val) sidebar.classList.add('collapsed'); else sidebar.classList.remove('collapsed');
+      // ensure main margin sync (CSS also handles sibling selector but keep safe)
+      if (sidebar.classList.contains('collapsed')) {
+        mainContent.style.marginLeft = 'var(--sidebar-collapsed)';
+      } else {
+        mainContent.style.marginLeft = '';
+      }
+      try { localStorage.setItem(COLLAPSE_KEY, val ? '1' : '0'); } catch (e) { }
+    }
+
+    // Mobile show/hide
+    function openSidebarMobile() { sidebar.classList.add('show-mobile'); }
+    function closeSidebarMobile() { sidebar.classList.remove('show-mobile'); }
+
+    // toggle button (mobile primarily)
+    toggle?.addEventListener('click', () => {
+      if (window.innerWidth < 992) {
+        // mobile: show/hide drawer
+        if (sidebar.classList.contains('show-mobile')) closeSidebarMobile(); else openSidebarMobile();
+      } else {
+        // desktop: toggle collapsed state
+        setCollapsed(!sidebar.classList.contains('collapsed'));
+      }
+    });
+
+    // Close chevron (desktop) should toggle collapsed state
+    closeBtn?.addEventListener('click', () => {
+      setCollapsed(!sidebar.classList.contains('collapsed'));
+    });
+
+    // initialize collapse from storage
+    const stored = (function () { try { return localStorage.getItem(COLLAPSE_KEY); } catch (e) { return null; } })();
+    if (stored === '1') setCollapsed(true);
+
+    // Close mobile sidebar when clicking outside (for better UX)
+    document.addEventListener('click', (ev) => {
+      if (window.innerWidth >= 992) return; // only mobile
+      if (!sidebar.classList.contains('show-mobile')) return;
+      if (sidebar.contains(ev.target) || ev.target === toggle) return;
+      closeSidebarMobile();
+    });
+
+    // Simple asset search to filter images/videos
+    const search = document.getElementById('asset-search');
+    search?.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      // filter images
+      document.querySelectorAll('#images-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+      // filter videos (by alt text)
+      document.querySelectorAll('#videos-grid img').forEach(img => {
+        const alt = (img.alt || '').toLowerCase();
+        img.parentElement.style.display = (!q || alt.includes(q)) ? '' : 'none';
+      });
+    });
+
+    // Responsive adjustments when resizing
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 992) {
+          // ensure mobile class removed
+          sidebar.classList.remove('show-mobile');
+          // ensure main margin reflects collapsed state
+          if (sidebar.classList.contains('collapsed')) mainContent.style.marginLeft = 'var(--sidebar-collapsed)'; else mainContent.style.marginLeft = '';
+        } else {
+          // on mobile don't keep desktop margin
+          mainContent.style.marginLeft = '';
+        }
+      }, 120);
+    });
+
+    // Thumbnail click -> preview modal & download
+    const previewModalEl = document.getElementById('previewModal');
+    const previewModal = new bootstrap.Modal(previewModalEl);
+    const previewContainer = document.getElementById('previewContainer');
+    const previewDownload = document.getElementById('previewDownload');
+
+    // Auto-resize composer textarea
+    const textarea = document.getElementById('prompt');
+    function autosize(el) {
+      if (!el) return;
+      el.style.height = 'auto';
+      el.style.height = Math.min(window.innerHeight * 0.25, el.scrollHeight) + 'px';
+    }
+    autosize(textarea);
+    textarea?.addEventListener('input', () => autosize(textarea));
+    textarea?.addEventListener('focus', () => {
+      // on mobile, ensure composer visible
+      setTimeout(() => textarea.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+    });
+
+    async function fetchAsBlob(url) {
+      try {
+        const res = await fetch(url, { mode: 'cors' });
+        const blob = await res.blob();
+        return blob;
+      } catch (e) { console.error('Fetch failed', e); return null; }
+    }
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-xxl">
+        <aside>
+            <div class="d-flex flex-column flex-shrink-0">
+                <a href="/" class="d-flex align-items-center my-3 m-auto logo">
+                    <img src="./icons/logo bottola_ai.png" alt="bottola_ai">
+                </a>
+
+                <ul class="nav nav-pills flex-column p-2">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" aria-current="page">
+                            <img src="./icons/explore.png" alt="">
+                            Explore
+                        </a>
+                    </li>
+                    <li class="nav-item mt-1">
+                        <a href="#" class="nav-link" aria-current="page">
+                            <img src="./icons/Asset.png" alt="">
+                            Asset
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="#" class="nav-link" aria-current="page">
+                            <img src="./icons/imageGen.png" alt="">
+                            ImageGen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-current="page">
+                            <img src="./icons/videoGen.png" alt="">
+                            VideoGen
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" aria-current="page">
+                            <img src="./icons/tolaLab.png" alt="">
+                            Asset
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a href="#" class="notifiable" aria-current="page">
+                            <i class="bi bi-bell"></i>
+                            <span class="dot_badge"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item mt-1">
+                        <a href="#" class="notifiable" aria-current="page">
+                            <i class="bi bi-megaphone"></i>
+                            <span class="dot_badge"></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div>
+                    <a href="#" class="btn" aria-current="page">
+                        <img src="./icons/userLogo.png" alt="">
+                    </a>
+                    <a href="#" class="credit_info" aria-current="page">
+                        <small>C#:3000</small>
+                        Standard
+                    </a>
+                </div>
+            </div>
+
+        </aside>
+        <main>
+            <div class="row">
+                <div class="generate_area col-12 col-md-4 p-0">
+                    <div class="card-head py-2 px-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-image fs-1 me-2"></i>
+                            <h3 class="fs-3">AI Image Generate </h3>
+                        </div>
+                        <span class="badge text-bg-info">New</span>
+                        <select name="" id="">
+                            <option value="">IMAGE 2.1 <small class="badge rounded-pill text-bg-info">NEW</small>
+                            </option>
+                            <option value="">IMAGE 1.0</option>
+                        </select>
+                    </div>
+                    <div class="card_subhead p-3">
+                        <nav class="assets_nav">
+                            <ul class="nav">
+                                <li><a href="#" class="active">Text to Image</a></li>
+                                <li><a href="#">Image to Image</a></li>
+                                <li><a href="#">Restyle</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="card_body p-3">
+                        <label for="prompt_field">Prompt <small>(Required)</small></label>
+                        <textarea class="form-control" name="" rows="4" id="prompt_field"
+                            placeholder="Describe the image you want to generate, Be as detailed as possible..."></textarea>
+                        <p style="font-size: 0.7em;"><small>Tip: Include details about composition, lighting, mood, and
+                                style for best results.</small></p>
+                        <br>
+                        <h4>Style Preset</h4>
+                        <div class="style_preset text-light p-1">
+                            <div class="preset_head row">
+                                <div class="col-auto p-0"><button class="btn btn-sm btn-dark"><i
+                                            class="bi bi-trash3"></i></button></div>
+                                <div class="col-auto p-0 text-center">
+                                    <!-- <input type="search" name="" id="" placeholder=""> -->
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <!-- Bootstrap search icon -->
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Search styles"
+                                            aria-label="Search" aria-describedby="basic-addon1">
+                                    </div>
+
+                                </div>
+                                <div class="col-auto p-0 ms-auto">
+                                    <div class="btn-group toggle_preset_view" role="group"
+                                        aria-label="Toggle preset view">
+                                        <button class="btn btn-sm btn-dark active"><i class="bi bi-grid"></i></button>
+                                        <button class="btn btn-sm btn-dark"><i class="bi bi-list"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="preset_body">
+                                <div class="row">
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Realistic</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Focused</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Kind</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Looking Out</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Sharp Look</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Realistic</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Focused</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Kind</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Looking Out</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Sharp Look</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Realistic</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Focused</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Kind</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Looking Out</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Sharp Look</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Realistic</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Focused</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Kind</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Looking Out</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-2 p-0">
+                                        <div class="preset_item">
+                                            <img src="https://placecats.com/300/300" alt="" width="100%">
+                                            <span>Sharp Look</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_footer p-3">
+                        <button class="btn btn-success w-100"><i class="bi bi-stars"></i> Generate</button>
+                    </div>
+                </div>
+                <div class="generated_area col-12 col-md-8 p-0">
+                    <div class="toast show align-items-center w-100 ms-3" role="alert" aria-live="assertive"
+                        aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="bi bi-megaphone"></i>
+                                Turn on notifications for generation update. <a href=""
+                                    class="link link-success">Allow</a>
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <div class="right_menu">
+                        <div class="top_right_horizental">
+                            <a href="" class="btn btn-secondary"><i class="bi bi-folder2"></i> Assets</a>
+                            <div class="btn-group">
+                                <a href="" class="btn btn-secondary"><i class="bi bi-fire text-success"></i> 166</a>
+                                <a href="" class="btn btn-secondary">Upgrade Plan</a>
+                            </div>
+                        </div>
+                        <div class="top_right_vertical">
+                            <div class="ms-auto bg-info">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste possimus, molestiae, quis asperiores id odit, animi aspernatur unde ab nihil laudantium molestias. Quod molestias eaque dolores illo quis, dicta velit voluptas voluptatibus ipsam distinctio. Atque voluptatem odit porro recusandae tempora. Atque illum asperiores maxime sequi, in nisi aliquid dolores itaque ut quisquam suscipit inventore cupiditate possimus facilis nostrum, ipsa, ea voluptatem reprehenderit deleniti dolore ducimus minus cum explicabo omnis? Veritatis quasi assumenda sed, dicta aliquid dolorum quidem veniam inventore, delectus sint quibusdam consequatur, impedit cum unde! Veritatis voluptatibus enim dolor voluptates adipisci, veniam reprehenderit similique quia minima corrupti quaerat asperiores omnis vero excepturi reiciendis libero? Provident, labore quibusdam illum magnam dicta recusandae, iste debitis id quo fugiat reiciendis doloremque? Dolor velit iusto sapiente delectus, quia dicta, ducimus ut quis dolores nostrum beatae eum, voluptatem eveniet cumque. Repellat porro molestias quia possimus cumque quos fuga earum impedit cum, incidunt nam repellendus amet, explicabo sapiente qui. Sequi corrupti dolores mollitia eveniet perspiciatis explicabo blanditiis iste sapiente? Rerum nihil earum ducimus eveniet nesciunt ex porro sapiente voluptatum eum quis accusamus officiis delectus dolore molestias ratione dicta adipisci, quam beatae molestiae unde voluptatibus! Asperiores atque nisi dolorum repudiandae, saepe voluptatum alias sapiente non.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,930 @@
+.toast {
+  background: #1F2124;
+  color: #f5f5f5;
+}
+
+
+/* Ensure images inside ratio containers cover the area */
+.ratio img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* ensure ratio container positions children relative */
+.ratio {
+  position: relative;
+}
+
+/* ensure download button sits above the overlay */
+.position-relative .btn {
+  z-index: 3;
+}
+
+.play-overlay {
+  z-index: 2;
+}
+
+/* clickable cursors */
+.clickable {
+  cursor: pointer;
+}
+
+/* play overlay for video thumbnails */
+.play-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* remove extra gap above tab inner cards */
+.tab-pane>.bg-white {
+  margin-top: 0 !important;
+}
+
+/* Dark-theme surfaces and controls */
+:root {
+  --surface-1: #071028;
+  /* panels */
+  --surface-2: #0b1220;
+  /* cards */
+  --muted: rgba(255, 255, 255, 0.65);
+  --muted-2: rgba(255, 255, 255, 0.45);
+  --input-border: rgba(255, 255, 255, 0.06);
+}
+
+/* Card / panel surfaces used for image/video grids */
+.tab-content .rounded-3.p-3.shadow-sm {
+  background: var(--surface-2);
+  color: #e6eef8;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Chat window (if present) dark surface */
+.chat-window {
+  background: var(--surface-1);
+  color: #e6eef8;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Inputs & search */
+.search_area .input-group-text,
+.search_area .form-control {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--input-border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: antiquewhite;
+}
+
+/* form controls in composer */
+.composer .form-control {
+  background: transparent;
+  color: #e6eef8;
+  border: 1px solid var(--input-border);
+}
+
+/* asset thumbnails look good on dark */
+.asset-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Nav pills on dark background */
+.nav-pills .nav-link {
+  color: #cfe3ff;
+}
+
+.nav-pills .nav-link.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+/* Modal into dark surface */
+.modal-content {
+  background: var(--surface-1);
+  color: #e6eef8;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+.modal .btn-close {
+  filter: invert(1) brightness(2);
+  opacity: .9;
+}
+
+/* Buttons: make outline-light more visible on dark */
+.btn-outline-light {
+  color: #e6eef8;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+
+/* Composer fixed to bottom */
+.composer {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  padding: .75rem;
+  z-index: 4;
+  box-shadow: 0 -6px 18px rgba(20, 24, 40, 0.06);
+  transition: transform 0.4s ease-in-out;
+}
+
+/* adjust when sidebar collapsed */
+.sidebar.collapsed~.main-content .composer {
+  left: var(--sidebar-collapsed);
+}
+
+/* mobile: composer spans full width */
+@media (max-width: 991.98px) {
+  .composer {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* reserve space so content is not hidden behind composer */
+.main-content {
+  padding-bottom: 92px;
+}
+
+/* Small screens: collapse sidebar into off-canvas */
+@media (max-width: 991.98px) {
+  .sidebar {
+    transform: translateX(-120%);
+    z-index: 4;
+  }
+
+  .sidebar.show-mobile {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* when off-canvas is open, ensure full width display */
+  .sidebar.show-mobile.collapsed {
+    width: var(--sidebar-width);
+  }
+}
+
+/* Ensure ad-cards stack nicely on mobile */
+@media (max-width: 575.98px) {
+  .ad-wrapper .col {
+    margin-bottom: .5rem;
+  }
+}
+
+/* *****  GALLERIES ***** */
+
+.gallery-wrapper {
+  /* padding: 2rem 7rem;  */
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: auto;
+  grid-gap: 0.3rem;
+  grid-auto-flow: dense;
+}
+
+/* Another way to do the same without declaring in the classes - remove h-x w-x from classes */
+/* .gallery-wrapper {
+  padding: 2rem 10rem;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, 300px);
+  grid-auto-rows: 200px;
+  grid-gap: 1rem;
+  grid-auto-flow: dense;
+} */
+
+
+.gallery-item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  filter: drop-shadow(2px 2px 3px #333);
+}
+
+.gallery-item .image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-item .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  cursor: pointer;
+  transition: all 400ms ease-in;
+  transform: scale(1);
+}
+
+.gallery-item .image img:hover {
+  transform: scale(1.1);
+}
+
+.recreate_btn {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  padding: 5px 30px;
+  transition: all 400ms ease-in;
+  background: #172c15a8;
+  border-radius: 15px;
+  min-width: 80%;
+}
+
+.gallery-item .image:hover .recreate_btn {
+  transform: translate(-50%, -10%);
+}
+
+.w-1 {
+  grid-column: span 1;
+}
+
+.w-2 {
+  grid-column: span 2;
+}
+
+.w-3 {
+  grid-column: span 3;
+}
+
+.w-4 {
+  grid-column: span 4;
+}
+
+.w-5 {
+  grid-column: span 5;
+}
+
+.h-1 {
+  grid-row: span 1;
+}
+
+.h-2 {
+  grid-row: span 2;
+}
+
+.h-3 {
+  grid-row: span 3;
+}
+
+.h-4 {
+  grid-row: span 4;
+}
+
+.h-5 {
+  grid-row: span 5;
+}
+
+/* ***** LIGHTBOX EFFECT ***** */
+
+#lightbox {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .92);
+  display: none;
+}
+
+#lightbox.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+  padding: 4px;
+  /* border-radius: 1%; */
+  /* background-color: white; */
+  border: 0.2px solid silver;
+}
+
+/* Generic Styles */
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 16px;
+  /* avoid viewport-width font sizing which can cause layout overflow */
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100vh;
+  min-width: 100%;
+  /* use percent so scrollbar width doesn't force horizontal overflow */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* safety: prevent accidental horizontal scroll from small rounding errors */
+}
+
+h1 {
+  text-align: center;
+  padding: 1rem;
+  background: -webkit-linear-gradient(130deg, #A155DA, #41B3A3);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media only screen and (max-width: 800px) {
+  .gallery-wrapper {
+    grid-template-columns: repeat(2, 2fr);
+    grid-template-rows: 1fr;
+    grid-gap: 2;
+    grid-auto-flow: dense;
+  }
+
+  .gallery-container:nth-child(3n+2) {
+    grid-column: 1 / span 2;
+    grid-row-end: span 2;
+  }
+
+  .gallery-container:nth-child(4n+3) {
+    grid-column: 2 / span 1;
+    grid-row-end: span 2;
+  }
+
+  /*  reseting the css for the class within the divs to show a different way to achieve grid control using the nth childs*/
+  .w-1,
+  .w-2,
+  .w-3,
+  .w-4,
+  .w-5 {
+    grid-column: span 1;
+  }
+
+  .h-1,
+  .h-2,
+  .h-3,
+  .h-4,
+  .h-5 {
+    grid-row: span 1;
+  }
+
+}
+
+@media only screen and (max-width: 400px) {
+
+  /* An example to use combined with flex but could also be grids with different repetition of columns  */
+  .gallery-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: wrap;
+    gap: 2.5rem;
+    margin: 1rem;
+    /* reduced to avoid overflowing the viewport on small screens */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 18px;
+  position: relative;
+  font-family: 'Roboto Mono', monospace, sans-serif;
+  background-color: #11220F;
+  padding-left: 80px;
+}
+
+body * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+option {
+  background-color: #0E0F0F;
+}
+
+input,
+textarea,
+select,
+.form-control,
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus {
+  background-color: #0E0F0F;
+  color: white;
+  border: 1px solid #1F2837;
+  box-shadow: none;
+}
+
+p,
+span,
+label,
+a,
+select,
+option,
+::placeholder {
+  font-family: sans-serif;
+  font-size: 0.8em;
+}
+
+/* aside */
+aside {
+  font-size: 0.7em;
+  background-color: #0E0F0F;
+  width: 80px;
+  /* height:max-content; */
+  /* min-height: 100vh; */
+  height: 100vh;
+  padding: 5px;
+  text-align: center;
+  font-weight: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* overflow-y: auto; */
+  scrollbar-width: thin;
+}
+
+aside .logo {
+  padding: 10px;
+}
+
+aside .nav-pills .nav-link {
+  background: #0A600080;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 5px;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+
+}
+
+aside .nav-pills .nav-link:hover,
+aside .nav-pills .nav-link.active {
+  background: #0a6000f8;
+}
+
+aside .nav-pills .nav-link img {
+  margin-bottom: 3px;
+  max-width: 40%;
+}
+
+aside .credit_info {
+  color: #FF8000;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1em;
+  display: block;
+  border: 1px solid #377330;
+  border-radius: 10px;
+}
+
+.notifiable {
+  position: relative;
+  display: inline-block;
+  color: white;
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+.dot_badge {
+  position: absolute;
+  top: 5px;
+  /* Adjust as needed for vertical positioning */
+  right: 0px;
+  /* Adjust as needed for horizontal positioning */
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  /* Makes it a circle */
+  padding: 4px 8px;
+  /* Adjust for desired size and text padding */
+  font-size: 12px;
+  line-height: 1;
+  /* Prevents extra spacing around text */
+  text-align: center;
+  box-sizing: border-box;
+  /* Includes padding in width/height calculation */
+  padding: 5px;
+  /* Smaller padding for a simple dot */
+  width: 10px;
+  /* Adjust for dot size */
+  height: 10px;
+  /* Adjust for dot size */
+  content: '';
+  /* Required for empty span to render as a dot */
+}
+
+/* Aside */
+main {
+  width: calc(100% - 100px);
+  height: 100vh;
+  padding: 10px 15px;
+}
+
+.ad_space {
+  height: 120px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Nav pills on dark background */
+.nav-pills .nav-link {
+  color: #cfe3ff;
+  font-size: 0.8em;
+}
+
+.nav-pills .nav-link.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+/* Search Area */
+.search_area span {
+  background: #fff0;
+  color: #f5f5f5;
+  cursor: pointer;
+}
+
+.search_area input {
+  background: #fff0;
+}
+
+input#asset-search:focus {
+  background: inherit;
+  box-shadow: none;
+  border: 1px solid #fff;
+}
+
+/* Dark-friendly placeholder colors (search, forms, textarea) */
+.search_area input::placeholder,
+.form-control::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+  /* ensure consistent opacity across browsers */
+}
+
+/* vendor prefixes */
+.search_area input::-webkit-input-placeholder,
+.form-control::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.search_area input:-ms-input-placeholder,
+.form-control:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.search_area input::-ms-input-placeholder,
+.form-control::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.search_area input::-moz-placeholder,
+.form-control::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+}
+
+
+/* Assets page */
+
+.assets_nav {}
+
+.assets_nav ul {
+  display: flex;
+}
+
+.assets_nav li {
+  padding: 0 10px;
+}
+
+.assets_nav li a {
+  text-decoration: none;
+  padding: 2px 0;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.assets_nav li a::after {
+  content: '';
+  display: block;
+  width: 100%;
+  border-bottom: 1.5px solid #74FF52;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+  transform-origin: left;
+}
+
+.assets_nav li a.active,
+.assets_nav li a:hover {
+  color: #74FF52;
+}
+
+.assets_nav li a.active::after,
+.assets_nav li a:hover::after {
+  transform-origin: right;
+  transform: scaleX(1);
+}
+
+
+.filter_nav {
+  display: inline-block;
+  background: #0E0F0F;
+  color: white;
+  padding: 14px;
+}
+
+/* select {
+    background: none;
+    border: none;
+    color: inherit;
+   } */
+
+/* Base styles for the container */
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* Allows boxes to wrap to the next line */
+  justify-content: space-around;
+  /* Distributes space around the items */
+  padding: 10px;
+  max-width: 1200px;
+  /* Optional: Sets a max width for the whole container */
+  margin: 0 auto;
+  /* Centers the container */
+}
+
+.box {
+  background-color: white;
+  /* The requested white box color */
+  border: 1px solid #ccc;
+  /* Subtle border for definition */
+  margin: 5px;
+  height: 100px;
+  /* Fixed height for the boxes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  border-radius: 5px;
+}
+
+/* ------------------------------------------------------------------ */
+/* 📱 SMALL DEVICES (Default: 2 boxes per row) */
+/* The default box styling is for small devices (mobile-first approach) */
+.box {
+  /* Calculates 50% width minus the horizontal margin to fit two in a row */
+  /* width: calc(50% - 10px - 2px); is the full calculation (50% - margin - border) */
+  width: calc(50% - 10px);
+  /* The 10px margin (5px left + 5px right) and 2px border (1px left + 1px right) 
+       are subtracted from 50% to ensure two boxes fit perfectly. 
+       We'll simplify the calc for readability, knowing the margin/border is small. */
+}
+
+/* ------------------------------------------------------------------ */
+/* 💻 LARGE DEVICES (Media Query: 8 boxes per row) */
+/* Apply these styles when the screen width is 992px or wider */
+@media (min-width: 992px) {
+  .box {
+    /* Calculates 12.5% (100% / 8) width minus the horizontal margin/border */
+    /* width: calc(12.5% - 10px - 2px); is the full calculation */
+    width: calc(12.5% - 10px);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 🖥️ OPTIONAL: MEDIUM DEVICES (e.g., Tablet: 4 boxes per row) */
+/* Apply these styles when the screen width is 600px or wider */
+@media (min-width: 600px) and (max-width: 991px) {
+  .box {
+    /* Calculates 25% (100% / 4) width minus the horizontal margin/border */
+    width: calc(25% - 10px);
+  }
+}
+
+/* /Assets page */
+
+
+/* Image Generate page */
+
+.generate_area {
+  background-color: #132125;
+  color: white;
+  border: 1px solid #6F7993;
+  border-radius: 10px;
+}
+
+.generate_area .card-head,
+.generate_area .card_body,
+.generate_area .card_subhead {
+  border-bottom: 1px solid #6F7993;
+}
+
+/* /Image Generate page */
+
+
+/* Dashboard Images Page */
+.style_preset {
+  background-color: #353535;
+}
+
+.style_preset .preset_head button {
+  border: 1px solid #4d4d4d;
+  background: #333333;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.style_preset .preset_head button:hover,
+.style_preset .preset_head button:focus {
+  background: #2c2c2c;
+}
+
+.style_preset .preset_head .input-group {
+  background: #09090B;
+  border: 1px solid #4d4d4d;
+  border-radius: 6px;
+  padding: 4px 2px 2px 7px;
+  margin-left: 4px;
+}
+
+.style_preset .preset_head .input-group span {
+  background: #09090B;
+  color: white;
+  border: none;
+  padding: 0;
+}
+
+.style_preset .preset_head .input-group input {
+  background: #09090B;
+  color: white;
+  border: none;
+  padding: 0;
+  padding-left: 8px;
+}
+
+.toggle_preset_view button:first-child {
+  border-right: 0;
+  background: #09090B;
+}
+
+.toggle_preset_view button:last-child {
+  background: #09090B;
+  border-left: 0;
+}
+
+.toggle_preset_view button.active {
+  background: #27272A;
+}
+
+.preset_body {
+  font-size: 0.5em;
+  max-height: 130px;
+  overflow-y: auto;
+
+  /* 1. Standard Property (Matches the blue background) */
+  /* Syntax: scrollbar-color: [thumb] [track/background] */
+  scrollbar-color: #888 #424242;
+}
+
+/* 2. WebKit Legacy (For older browsers or specific sizing) */
+.preset_body::-webkit-scrollbar {
+  width: 8px;
+  /* Required for other -webkit properties to work */
+}
+
+.preset_body::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+.preset_body::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.preset_body .preset_item {
+  border: 1px solid #4d4d4d;
+  border-radius: 6px;
+  margin: 2px;
+  color: #c2c2c2;
+}
+
+.preset_body .preset_item span {
+  padding: 0 1px;
+}
+
+
+.right_menu
+.top_right_horizental{
+  position: fixed;
+  right:9%;
+}
+.right_menu .top_right_horizental .btn-group a:nth-child(1)::after{
+  content: '';
+  background-color: #f5f5f5;
+  width: 1px;
+  height: 12px;
+  display: inline-block;
+  position: absolute;
+  top: 34%;
+  right: -1px;
+  z-index: 2;
+}
