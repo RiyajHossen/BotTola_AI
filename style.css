@@ -3,6 +3,8 @@
   --bg-hover: #f5f7ff;
   --secbtn-color: #e5e5e5;
   --secbtn-bg: #333436;
+  --darkish-bg: #17181a;
+  
 }
 
 .pe-6{
@@ -1147,7 +1149,9 @@ textarea::-moz-placeholder {
 /* Dashboard Video Section */
 
 .upimgbox {
-  background-color: #17181a;
+  background-color: var(--darkish-bg);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 .upimgbox button{
   color: var(--secbtn-color);
@@ -1168,14 +1172,13 @@ textarea::-moz-placeholder {
 
 .upimgbox #drop-zone {
   border: 1px solid #313131;
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
   padding: 40px;
   text-align: center;
   transition: all 0.3s ease;
   background: transparent;
   cursor: pointer;
-  max-width: 500px;
-  margin: 20px 5px;
+  margin: 20px 5px 0 5px;
 }
 
 .upload-container.drag-over {
@@ -1209,3 +1212,17 @@ textarea::-moz-placeholder {
   border-radius: 8px;
   border: 1px solid #e2e8f0;
 }
+
+.hints{
+  border: 1px solid #313131;
+  border-radius: 0 0 12px 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin: -1px 5px 0px 5px;
+  padding: 5px;
+}
+.hints_horizontal{
+  background-color: var(--darkish-bg);
+}
+
+/* Custom Select Options */
