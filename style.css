@@ -28,7 +28,7 @@
     background-color: #223421;
 }
 video{
-  background-color: #222a2b;
+  background-color: #21282a;
 }
 
 /* Ensure images inside ratio containers cover the area */
@@ -1223,6 +1223,41 @@ textarea::-moz-placeholder {
 }
 .hints_horizontal{
   background-color: var(--darkish-bg);
+}
+
+.generated_item_body video{
+  border-radius: 6px 6px 0 0;
+}
+.generated_item.video{
+  border-radius: 0 0 6px 6px;
+}
+.video_actions{
+  background-color: #000000;
+    margin-top: -15px;
+    border-radius: 0 0 6px 6px;
+    position: relative;
+    padding-bottom: 10px;
+}
+.video_actions button{
+  background-color: transparent;
+  position: relative;
+}
+.video_actions .nav-item{
+  position: relative;
+}
+
+.video_actions .nav-item:nth-child(1)::after,
+.video_actions .nav-item:nth-child(2)::after,
+.video_actions .nav-item:nth-child(3)::after,
+.video_actions .nav-item:nth-child(8)::after{
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 50%;
+  background: #3d4042;
 }
 
 /* Custom Select Options */
