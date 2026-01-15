@@ -22,25 +22,25 @@
 
                 <ul class="nav nav-pills flex-column p-2">
                     <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page">
+                        <a href="./new_index.html" class="nav-link" aria-current="page">
                             <img src="./icons/explore.png" alt="">
                             Explore
                         </a>
                     </li>
                     <li class="nav-item mt-1">
-                        <a href="#" class="nav-link" aria-current="page">
+                        <a href="./assets.html" class="nav-link" aria-current="page">
                             <img src="./icons/Asset.png" alt="">
                             Asset
                         </a>
                     </li>
                     <li class="nav-item mt-4">
-                        <a href="#" class="nav-link active" aria-current="page">
+                        <a href="./dashboard_image.html" class="nav-link active" aria-current="page">
                             <img src="./icons/imageGen.png" alt="">
                             ImageGen
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page">
+                        <a href="./dashboard_video.html" class="nav-link" aria-current="page">
                             <img src="./icons/videoGen.png" alt="">
                             VideoGen
                         </a>
@@ -59,13 +59,13 @@
                     </li>
                     <hr>
                     <li class="nav-item">
-                        <a href="#" class="notifiable" aria-current="page">
+                        <a href="https://bottola.ai/" class="notifiable" aria-current="page">
                             <i class="bi bi-bell"></i>
                             <span class="dot_badge"></span>
                         </a>
                     </li>
                     <li class="nav-item mt-1">
-                        <a href="#" class="notifiable" aria-current="page">
+                        <a href="https://bottola.ai/" class="notifiable" aria-current="page">
                             <i class="bi bi-megaphone"></i>
                             <span class="dot_badge"></span>
                         </a>
@@ -77,7 +77,7 @@
                         <img src="./icons/userLogo.png" alt="">
                     </a>
                     <a href="#" class="credit_info" aria-current="page">
-                        <small>C#:3000</small>
+                        <i class="bi bi-fire text-success"></i> <bold class="fw-bolder">166</bold>
                         Standard
                     </a>
                 </div>
@@ -94,183 +94,193 @@
                                     <h3 class="fs-3">AI Image Generate </h3>
                                 </div>
                                 <span class="badge_new">New</span>
-                                <div class="inline">
-                                    <select name="" id="">
-                                        <option value="">IMAGE 2.1 <small class="badge rounded-pill text-bg-info">NEW</small>
-                                        </option>
-                                        <option value="">IMAGE 1.0</option>
-                                    </select>
+                                <div class="custom-select">
+                                  <button type="button" class="select-trigger">Image 2.1 <span>NEW</span></button>
+                                  <!-- Hidden input to store the value for the form -->
+                                  <input type="hidden" name="user_choice" id="selected-value" value="">
+                                  
+                                  <ul class="options-list">
+                                    <li data-value="apple" class="active">Image 2.1 <span>NEW</span></li>
+                                    <li data-value="banana">Image 1.0</li>
+                                  </ul>
                                 </div>
                             </div>
                             <div class="card_subhead p-3">
                                 <nav class="assets_nav">
-                                    <ul class="nav">
-                                        <li><a href="#" class="active">Text to Image</a></li>
-                                        <li><a href="#">Image to Image</a></li>
-                                        <li><a href="#">Restyle</a></li>
+                                    <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+                                        <li><a id="text-img-tab" data-bs-toggle="tab" data-bs-target="#text-img-pane" type="button" role="tab" aria-controls="text-img-pane" aria-selected="true" class="active" >Text to Image</a></li>
+                                        <li><a id="img-img-tab" data-bs-toggle="tab" data-bs-target="#img-img-pane" type="button" role="tab" aria-controls="img-img-pane" aria-selected="true">Image to Image</a></li>
+                                        <li><a id="img-restyle-tab" data-bs-toggle="tab" data-bs-target="#img-restyle-pane" type="button" role="tab" aria-controls="img-restyle-pane" aria-selected="true">Restyle</a></li>
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="card_body p-3">
-                                <div class="promptBox">
-                                    <label for="prompt_field">Prompt <small>(Required)</small></label>
-                                    <textarea class="form-control" name="" rows="4" id="prompt_field"
-                                        placeholder="Describe the image you want to generate, Be as detailed as possible..."></textarea>
-                                    <p style="font-size: 0.7em;"><small>Tip: Include details about composition, lighting, mood, and
-                                            style for best results.</small></p>
-                                </div>
-                                <br>
-                                <h4>Style Preset</h4>
-                                <div class="style_preset text-light p-1">
-                                    <div class="preset_head row">
-                                        <div class="col-auto p-0"><button class="btn btn-sm btn-dark"><i
-                                                    class="bi bi-trash3"></i></button></div>
-                                        <div class="col-auto p-0 text-center">
-                                            <!-- <input type="search" name="" id="" placeholder=""> -->
-                                            <div class="input-group">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <!-- Bootstrap search icon -->
-                                                    <i class="bi bi-search"></i>
-                                                </span>
-                                                <input type="text" class="form-control" placeholder="Search styles"
-                                                    aria-label="Search" aria-describedby="basic-addon1">
-                                            </div>
+                            <div class="tab-content" id="myTabContent">
+                              <div class="tab-pane fade show active" id="text-img-pane" role="tabpanel" aria-labelledby="text-img-tab" tabindex="0">
+                                <div class="card_body p-3">
+                                    <div class="promptBox">
+                                        <label for="prompt_field">Prompt <small>(Required)</small></label>
+                                        <textarea class="form-control" name="" rows="4" id="prompt_field"
+                                            placeholder="Describe the image you want to generate, Be as detailed as possible..."></textarea>
+                                        <p style="font-size: 0.7em;"><small>Tip: Include details about composition, lighting, mood, and
+                                                style for best results.</small></p>
+                                    </div>
+                                    <br>
+                                    <h4>Style Preset</h4>
+                                    <div class="style_preset text-light p-1">
+                                        <div class="preset_head row">
+                                            <div class="col-auto p-0"><button class="btn btn-sm btn-dark"><i
+                                                        class="bi bi-trash3"></i></button></div>
+                                            <div class="col-auto p-0 text-center">
+                                                <!-- <input type="search" name="" id="" placeholder=""> -->
+                                                <div class="input-group">
+                                                    <span class="input-group-text" id="basic-addon1">
+                                                        <!-- Bootstrap search icon -->
+                                                        <i class="bi bi-search"></i>
+                                                    </span>
+                                                    <input type="text" class="form-control" placeholder="Search styles"
+                                                        aria-label="Search" aria-describedby="basic-addon1">
+                                                </div>
         
+                                            </div>
+                                            <div class="col-auto p-0 ms-auto">
+                                                <div class="btn-group toggle_preset_view" role="group"
+                                                    aria-label="Toggle preset view">
+                                                    <button class="btn btn-sm btn-dark active"><i class="bi bi-grid"></i></button>
+                                                    <button class="btn btn-sm btn-dark"><i class="bi bi-list"></i></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-auto p-0 ms-auto">
-                                            <div class="btn-group toggle_preset_view" role="group"
-                                                aria-label="Toggle preset view">
-                                                <button class="btn btn-sm btn-dark active"><i class="bi bi-grid"></i></button>
-                                                <button class="btn btn-sm btn-dark"><i class="bi bi-list"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="preset_body">
-                                        <div class="row">
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Realistic</span>
+                                        <div class="preset_body">
+                                            <div class="row">
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Realistic</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Focused</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Focused</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Kind</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Kind</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Looking Out</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Looking Out</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Sharp Look</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Sharp Look</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Realistic</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Realistic</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Focused</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Focused</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Kind</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Kind</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Looking Out</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Looking Out</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Sharp Look</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Sharp Look</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Realistic</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Realistic</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Focused</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Focused</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Kind</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Kind</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Looking Out</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Looking Out</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Sharp Look</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Sharp Look</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Realistic</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Realistic</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Focused</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Focused</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Kind</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Kind</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Looking Out</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Looking Out</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-3 col-md-2 p-0">
-                                                <div class="preset_item">
-                                                    <img src="https://placecats.com/300/300" alt="" width="100%">
-                                                    <span>Sharp Look</span>
+                                                <div class="col-3 col-md-2 p-0">
+                                                    <div class="preset_item">
+                                                        <img src="https://placecats.com/300/300" alt="" width="100%">
+                                                        <span>Sharp Look</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                              </div>
+                              <div class="tab-pane fade" id="img-img-pane" role="tabpanel" aria-labelledby="img-img-tab" tabindex="0">...</div>
+                              <div class="tab-pane fade" id="img-restyle-pane" role="tabpanel" aria-labelledby="img-restyle-tab" tabindex="0">...</div>
                             </div>
+                            
                             <div class="card_footer p-3">
                                 <button class="btn btn-success w-100"><i class="bi bi-stars"></i> Generate</button>
                             </div>
@@ -289,321 +299,226 @@
                                     aria-label="Close"></button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-11">
-                                <div class="generated_items pt-5 ps-2 pe-6">
-                                    <div class="generated_item pb-2 my-5">
-                                        <div class="generated_item_head">
-                                            <div class="row">
-                                                <div class="col-8 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
-                                                    </ul>
-                                                </div>
-                                                <div class="col-4 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <span class="ms-2" style="font-size: 0.7rem;">
-                                                tree <i class="bi bi-layers"></i>
-                                            </span>
+                        <div class="right_menu">                                    
+                            <div class="top_right_vertical">
+                                <div class="top_right_horizental">
+                                        <a href="" class="btn btn-secondary"><i class="bi bi-folder2"></i> Assets</a>
+                                        <div class="btn-group">
+                                            <a href="" class="btn btn-secondary"><i class="bi bi-fire text-success"></i> 166</a>
+                                            <a href="" class="btn btn-secondary">Upgrade Plan</a>
                                         </div>
-                                        <div class="generated_item_body">
-                                            <div class="row">
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="generated_item pb-2 my-5">
-                                        <div class="generated_item_head">
-                                            <div class="row">
-                                                <div class="col-8 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
-                                                    </ul>
-                                                </div>
-                                                <div class="col-4 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <span class="ms-2" style="font-size: 0.7rem;">
-                                                tree <i class="bi bi-layers"></i>
-                                            </span>
-                                        </div>
-                                        <div class="generated_item_body">
-                                            <div class="row">
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://picsum.photos/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://picsum.photos/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://picsum.photos/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://picsum.photos/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="generated_item pb-2 my-5">
-                                        <div class="generated_item_head">
-                                            <div class="row">
-                                                <div class="col-8 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
-                                                    </ul>
-                                                </div>
-                                                <div class="col-4 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <span class="ms-2" style="font-size: 0.7rem;">
-                                                tree <i class="bi bi-layers"></i>
-                                            </span>
-                                        </div>
-                                        <div class="generated_item_body">
-                                            <div class="row">
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generating">
-                                                        <div class=" mt-auto">
-                                                            <span class="ms-2">Generating...</span>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <i class="bi bi-chevron-compact-right"></i>
-                                                            <div class="upgrade">
-                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="generated_item pb-2 my-5">
-                                        <div class="generated_item_head">
-                                            <div class="row">
-                                                <div class="col-8 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
-                                                    </ul>
-                                                </div>
-                                                <div class="col-4 p-0">
-                                                    <ul class="nav">
-                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
-                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <span class="ms-2" style="font-size: 0.7rem;">
-                                                tree <i class="bi bi-layers"></i>
-                                            </span>
-                                        </div>
-                                        <div class="generated_item_body">
-                                            <div class="row">
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://placecats.com/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://placecats.com/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://placecats.com/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3 p-1">
-                                                    <div class="item generated">
-                                                        <img src="https://placecats.com/200/300" alt="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+                                <div class="history_navigate">
+                                        <ul class="nav nav-pills flex-column">
+                                            <li class="nav-item"><a href="" class="nav-link active"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
+                                        </ul>
+                                </div>
+                                <div class="virticalmenu">
+                                        <ul class="nav nav-pills flex-column">
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-magic"></i></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-house-door"></i></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-eraser"></i></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-box"></i></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-wrench-adjustable"></i></a></li>
+                                            <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-grid-3x3"></i></a></li>
+                                        </ul>
+                                </div>                             
                             </div>
-                            <div class="col-1">
-                                <div class="right_menu">
-                                    <div class="menu_container">
-                                    </div>
-                                    
-                                    <div class="top_right_vertical">
-                                        <div class="ms-auto pt-2">
-                                            <div class="top_right_horizental">
-                                                <a href="" class="btn btn-secondary"><i class="bi bi-folder2"></i> Assets</a>
-                                                <div class="btn-group">
-                                                    <a href="" class="btn btn-secondary"><i class="bi bi-fire text-success"></i> 166</a>
-                                                    <a href="" class="btn btn-secondary">Upgrade Plan</a>
+                        </div>
+                        <div class="generated_items pt-1 ps-2 pe-6">
+                            <div class="generated_item pb-2 mb-5">
+                                        <div class="generated_item_head">
+                                            <div class="row">
+                                                <div class="col-8 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
+                                                    </ul>
+                                                </div>
+                                                <div class="col-4 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                            <div class="virticalmenu typeimg">
-                                                <ul class="nav nav-pills flex-column">
-                                                    <li class="nav-item"><a href="" class="nav-link active"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><img src="https://picsum.photos/200" alt=""></a></li>
-                                                </ul>
+                                            <span class="ms-2" style="font-size: 0.7rem;">
+                                                tree <i class="bi bi-layers"></i>
+                                            </span>
+                                        </div>
+                                        <div class="generated_item_body">
+                                            <div class="row">
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generating">
+                                                        <div class=" mt-auto">
+                                                            <span class="ms-2">Generating...</span>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <div class="upgrade">
+                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generating">
+                                                        <div class=" mt-auto">
+                                                            <span class="ms-2">Generating...</span>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <div class="upgrade">
+                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generating">
+                                                        <div class=" mt-auto">
+                                                            <span class="ms-2">Generating...</span>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <div class="upgrade">
+                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generating">
+                                                        <div class=" mt-auto">
+                                                            <span class="ms-2">Generating...</span>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <i class="bi bi-chevron-compact-right"></i>
+                                                            <div class="upgrade">
+                                                                <a href="#" class="btn btn-sm link-light">Upgrade ></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="virticalmenu">
-                                                <ul class="nav nav-pills flex-column">
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-magic"></i></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-house-door"></i></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-eraser"></i></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-box"></i></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-wrench-adjustable"></i></a></li>
-                                                    <li class="nav-item"><a href="" class="nav-link"><i class="bi bi-grid-3x3"></i></a></li>
-                                                </ul>
+                                        </div>
+                            </div>
+                            <div class="generated_item pb-2 mb-5">
+                                        <div class="generated_item_head">
+                                            <div class="row">
+                                                <div class="col-8 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
+                                                    </ul>
+                                                </div>
+                                                <div class="col-4 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
+                                                    </ul>
+                                                </div>
                                             </div>
-                                        </div>                                
-                                    </div>
-                                </div>
+                                            <span class="ms-2" style="font-size: 0.7rem;">
+                                                tree <i class="bi bi-layers"></i>
+                                            </span>
+                                        </div>
+                                        <div class="generated_item_body">
+                                            <div class="row">
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://picsum.photos/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://picsum.photos/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://picsum.photos/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://picsum.photos/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="generated_item pb-2 mb-5">
+                                        <div class="generated_item_head">
+                                            <div class="row">
+                                                <div class="col-8 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item"><span class="nav-link ps-2 text-white"><i class="bi bi-image"></i> Images |</span></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">IMAGE 2.1</button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary">High-Res</button></li>                                        
+                                                    </ul>
+                                                </div>
+                                                <div class="col-4 p-0">
+                                                    <ul class="nav">
+                                                        <li class="nav-item ms-auto"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-vector-pen"></i></button></li>
+                                                        <li class="nav-item"><button class="nav-link btn btn-sm btn-secondary"><i class="bi bi-arrow-counterclockwise"></i></button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <span class="ms-2" style="font-size: 0.7rem;">
+                                                tree <i class="bi bi-layers"></i>
+                                            </span>
+                                        </div>
+                                        <div class="generated_item_body">
+                                            <div class="row">
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://placecats.com/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://placecats.com/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://placecats.com/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3 p-1">
+                                                    <div class="item generated">
+                                                        <img src="https://placecats.com/200/300" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                             </div>
                         </div>
                         
@@ -619,6 +534,35 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 
+    <script>
+        const hiddenInput = document.querySelector('#selected-value');
+        const options = document.querySelectorAll('.options-list li');
+        const trigger = document.querySelector('.select-trigger');
+        
+        options.forEach(option => {
+          option.addEventListener('click', () => {
+            const value = option.dataset.value;
+            const text = option.innerHTML;
+            const currentActive = document.querySelector('.options-list li.active');
+        
+            currentActive.classList.remove('active');
+            option.classList.add('active');
+            // 1. Update the hidden input value for the form
+            hiddenInput.value = value;
+        
+            // 2. Update the visual UI
+            trigger.innerHTML = text;
+            
+            // 3. Close the dropdown
+            document.querySelector('.custom-select').classList.remove('active');
+            
+          });
+        });
+        
+        trigger.addEventListener('click', () => {
+          document.querySelector('.custom-select').classList.toggle('active');
+        });
+    </script>
 
 </body>
 

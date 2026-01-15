@@ -674,7 +674,7 @@
 
                 <ul class="nav nav-pills flex-column p-2">
                     <li class="nav-item">
-                        <a href="./new_index.html" class="nav-link active" aria-current="page">
+                        <a href="./new_index.html" class="nav-link" aria-current="page">
                             <img src="./icons/explore.png" alt="">
                             Explore
                         </a>
@@ -686,13 +686,13 @@
                         </a>
                     </li>
                     <li class="nav-item mt-4">
-                        <a href="./dashboard_image.html" class="nav-link" aria-current="page">
+                        <a href="./dashboard_image.html" class="nav-link active" aria-current="page">
                             <img src="./icons/imageGen.png" alt="">
                             ImageGen
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page">
+                        <a href="./dashboard_video.html" class="nav-link" aria-current="page">
                             <img src="./icons/videoGen.png" alt="">
                             VideoGen
                         </a>
@@ -711,13 +711,13 @@
                     </li>
                     <hr>
                     <li class="nav-item">
-                        <a href="#" class="notifiable" aria-current="page">
+                        <a href="https://bottola.ai/" class="notifiable" aria-current="page">
                             <i class="bi bi-bell"></i>
                             <span class="dot_badge"></span>
                         </a>
                     </li>
                     <li class="nav-item mt-1">
-                        <a href="#" class="notifiable" aria-current="page">
+                        <a href="https://bottola.ai/" class="notifiable" aria-current="page">
                             <i class="bi bi-megaphone"></i>
                             <span class="dot_badge"></span>
                         </a>
@@ -729,7 +729,7 @@
                         <img src="./icons/userLogo.png" alt="">
                     </a>
                     <a href="#" class="credit_info" aria-current="page">
-                        <small>C#:3000</small>
+                        <i class="bi bi-fire text-success"></i> <bold class="fw-bolder">166</bold>
                         Standard
                     </a>
                 </div>
@@ -767,7 +767,7 @@
             <div class="d-flex flex-column flex-sm-row gap-2 align-items-start align-items-sm-center">
                 <ul class="nav nav-pills me-2" id="mainTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             aria-selected="true">Recommendations</button>
                     </li>
@@ -777,7 +777,7 @@
                             Images</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
                             aria-selected="false">AI Videos</button>
                     </li>
@@ -797,7 +797,7 @@
         <section class="flex-grow-1 d-flex flex-column mb-3">
             <div class="tab-content h-100 d-flex flex-column">
                 <!-- Recommendation Tab (default) -->
-                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                <div class="tab-pane fade" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
                     tabindex="0">
                     <div id="gallery">
                         <div class="gallery-wrapper">
@@ -988,12 +988,269 @@
                 <!-- AI Images Tab (default) -->
                 <div class="tab-pane fade" id="img-tab-pane" role="tabpanel" aria-labelledby="img-tab" tabindex="0">
 
+                  <div id="gallery">
+                        <div class="gallery-wrapper">
+
+                            <div class="gallery-container h-2">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/08/16/57/forest-5724397_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/06/15/33/woman-5718089_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container h-2 w-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/09/22/20/bridge-5727975_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2017/05/25/21/26/bird-feeder-2344414_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2 h-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/08/10/25/dog-5723334_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/10/28/23/33/llamas-5694819_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2 h-3">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2015/02/15/03/04/japanese-umbrellas-636870_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2018/10/04/11/31/river-3723439_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1505820013142-f86a3439c5b2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2019/12/17/17/09/woman-4702060_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/11/09/22/27/garlic-5728008_960_720.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1526281216101-e55f00f0db7a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1600&q=80">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container w-2">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img
+                                            src="https://cdn.pixabay.com/photo/2020/10/01/17/11/temple-5619197_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <img src="https://cdn.pixabay.com/photo/2020/09/06/20/21/cat-5550033_1280.jpg">
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <!-- AI Videos Tab -->
-                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                <div class="tab-pane fade show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                     tabindex="0">
 
+                    <div id="gallery">
+                        <div class="gallery-wrapper">
+
+                            
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">                                        
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/18069236/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/28615171/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/29873144/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/9790215/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/8369957/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/34996611/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gallery-container">
+                                <div class="gallery-item">
+                                    <div class="image">
+                                        <video class="hover-video" src="https://www.pexels.com/download/video/8087088/" muted></video>
+                                        <a href="#" class="recreate_btn text-light btn">Recreate</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
                 </div>
 
             </div>
@@ -1006,25 +1263,23 @@
 
 
     <script>
-
-    // Hide/show composer on scroll
-    const mycomposer = document.getElementById("composer");
-    let prevScrollPos = window.pageYOffset;
-
-    window.addEventListener("scroll", function () {
-      const currentScrollPos = window.pageYOffset;
-
-      if (prevScrollPos < currentScrollPos) {
-        // Scrolling down
-        mycomposer.style.transform = "translateY(250%)"; // Example: slide up and out of view
-      } else {
-        // Scrolling up
-        mycomposer.style.transform = "translateY(0)"; // Example: slide back into view
-      }
-      prevScrollPos = currentScrollPos;
+    
+    // Select all video elements you want to apply this effect to
+    const videos = document.querySelectorAll('.hover-video');
+    
+    // Iterate over each video and add event listeners
+    videos.forEach(video => {
+        video.addEventListener('mouseenter', function() {
+            this.play();
+        });
+    
+        video.addEventListener('mouseleave', function() {
+            this.pause();
+            this.currentTime = 0; // Optional: Resets the video to the start when the mouse leaves
+        });
     });
 
-
+    
     //  ***** LIGHTBOX AREA  ***** 
     const lightbox = document.createElement('div')
     const images = document.querySelectorAll('img:not(.profile)')
