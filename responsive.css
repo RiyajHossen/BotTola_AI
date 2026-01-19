@@ -12,6 +12,23 @@
         display: block;
         background-color: #0E0F0F !important;
     }
+    .right_menu .top_right_horizental {
+        padding: 10px;
+    }
+    .right_menu .top_right_horizental .btn{
+        font-size: 0.8rem;
+    }
+}
+@media (max-width:1024px) {
+    .history_navigate,
+    .virticalmenu{
+        display: none;
+    }
+}
+@media (min-width:1025px) {
+    .pe-lx-5 {
+        padding-right: 3rem !important;
+    }
 }
 @media (min-width:768px) {
     .navbar{

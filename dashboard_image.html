@@ -11,6 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./responsive.css">
+    <style>
+        @media (max-width:1024px) {
+            main {
+                width: 100%;
+                margin: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -178,7 +186,7 @@
                                 tabindex="0">
                                 <div class="imgImgBox">
 
-                                    <ul class="nav">
+                                    <ul class="nav puitype">
                                         <li class="nav-item">
                                             <label class="nav-link active">Subject <input type="radio" name="uitype"
                                                     id="" checked></label>
@@ -206,7 +214,7 @@
                                                             <path
                                                                 d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
                                                         </svg>
-                                                        <h6>Upload [Subject] Reference Image</h6>
+                                                        <h6>Upload [<span id="uitypeText">Subject</span>] Reference Image</h6>
                                                         <span>Select from <button
                                                                 class="fw-bold p-0">History</button></span>
                                                         <p>Support JPG/PNG </p>
@@ -420,7 +428,7 @@
                     </div>
                 </div>
                 <div class="generated_area col-12 col-md-8 col-lg-9 p-0">
-                    <div class="toast show align-items-center w-100 ms-3" role="alert" aria-live="assertive"
+                    <div class="toast show align-items-center my-2 w-100 ms-3" role="alert" aria-live="assertive"
                         aria-atomic="true">
                         <div class="d-flex">
                             <div class="toast-body">
@@ -435,8 +443,8 @@
                     <div class="right_menu">
                         <div class="top_right_vertical">
                             <div class="top_right_horizental">
-                                <a href="" class="btn btn-secondary"><i class="bi bi-folder2"></i> Assets</a>
-                                <div class="btn-group">
+                                <a href="" class="btn btn-secondary m-1"><i class="bi bi-folder2"></i> Assets</a>
+                                <div class="btn-group m-1">
                                     <a href="" class="btn btn-secondary"><i class="bi bi-fire text-success"></i> 166</a>
                                     <a href="" class="btn btn-secondary">Upgrade Plan</a>
                                 </div>
@@ -488,7 +496,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="generated_items pt-1 ps-2 pe-6">
+                    <div class="generated_items pt-1 ps-2 pe-lx-5">
                         <div class="generated_item pb-2 mb-5">
                             <div class="generated_item_head">
                                 <div class="row">
@@ -773,6 +781,23 @@
             }
         }
 
+
+        //  ***** RADIO BUTTONS  *****
+        const uitypeText = document.getElementById('uitypeText');
+        document.querySelectorAll('input[name="uitype"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove 'active' class from all labels in the nav
+                document.querySelectorAll('.puitype .nav-link').forEach(label => {
+                    label.classList.remove('active');
+                });        
+
+                // Add 'active' class to the parent label of the selected radio
+                if (this.checked) {
+                    this.parentElement.classList.add('active');
+                    uitypeText.innerText = this.parentElement.textContent;
+                }
+            });
+        });
 
 
 

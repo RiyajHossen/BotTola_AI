@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./responsive.css">
+    <style>
+        @media (max-width:1200px) {
+            main {
+                width: 100%;
+                margin: auto;
+            }
+
+            .history_navigate,
+            .virticalmenu {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -135,7 +148,7 @@
         </aside>
         <main>
             <div class="row">
-                <div class="generate_area col-12 col-md-4 col-lg-3 p-0">
+                <div class="generate_area col-12 col-lg-4 p-0">
                     <div class="prompt_area">
                         <div class="card-head py-2 px-4">
                             <div class="d-flex align-items-center">
@@ -188,7 +201,7 @@
                                                 <div class="upimgbox">
                                                     <button type="button" class="active ms-2">Frames</button>
                                                     <button type="button">Elements</button>
-                                                    <div class="uparea" id="drop-zone">
+                                                    <div class="uparea" class="drop-zone">
                                                         <div class="upload-inner">
                                                             <!-- SVG Cloud Icon -->
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="50"
@@ -204,9 +217,10 @@
                                                                     class="fw-bold p-0">History</button></span>
                                                             <p>Video files up to 10MB with minimum dimensions of 300px
                                                             </p>
-                                                            <input type="file" id="file-input" accept="video/*" hidden>
+                                                            <input type="file" class="file-input" accept="video/*"
+                                                                hidden>
                                                         </div>
-                                                        <div id="preview-grid" class="preview-grid"></div>
+                                                        <div class="preview-grid"></div>
                                                     </div>
                                                     <div class="hints d-flex align-items-center">
                                                         <span>Hints:</span>
@@ -227,14 +241,14 @@
                                                                         src="https://picsum.photos/200/200" alt=""
                                                                         width="35px" class="rounded"></a></li>
                                                         </ul>
-                                                        <button class="ms-auto me-3"><i
+                                                        <button class="ms-auto"><i
                                                                 class="bi bi-arrow-repeat"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-2 p-0">
                                                 <div class="hints_horizontal text-center">
-                                                    <span>Hints:</span>
+                                                    <span class="d-block">Hints:</span>
                                                     <a href="" class="btn m-0 my-1 p-0"><img
                                                             src="https://picsum.photos/200/200" alt="" width="70px"
                                                             class="rounded"></a>
@@ -257,7 +271,7 @@
                                     <div class="upimgbox my-2 mx-1 mx-md-4">
                                         <button type="button" class="active ms-2">Frames</button>
                                         <button type="button">Elements</button>
-                                        <div class="uparea" id="drop-zone">
+                                        <div class="uparea" class="drop-zone">
                                             <div class="upload-inner">
                                                 <!-- SVG Cloud Icon -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"
@@ -269,9 +283,9 @@
                                                 <h6>Click / Drop / Past</h6>
                                                 <span>Select from <button class="fw-bold p-0">History</button></span>
                                                 <p>video files up to 10MB with minimum dimensions of 300px</p>
-                                                <input type="file" id="file-input" accept="video/*" hidden>
+                                                <input type="file" class="file-input" accept="video/*" hidden>
                                             </div>
-                                            <div id="preview-grid" class="preview-grid"></div>
+                                            <div class="preview-grid"></div>
                                         </div>
                                         <div class="hints d-flex align-items-center">
                                             <span>Hints:</span>
@@ -308,7 +322,7 @@
                                                             style for best results.</small></p>
                                                 </div>
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-2 p-0">
                                                 <div class="hints_horizontal text-center">
                                                     <span>Hints:</span>
                                                     <a href="" class="btn m-0 my-1 p-0"><img
@@ -328,7 +342,80 @@
 
                             </div>
                             <div class="tab-pane fade" id="video-restyle-pane" role="tabpanel"
-                                aria-labelledby="video-restyle-tab" tabindex="0">...</div>
+                                aria-labelledby="video-restyle-tab" tabindex="0">
+                                <div class="card_body">
+                                    <div class="upimgbox my-2 mx-1 mx-md-4">
+                                        <button type="button" class="active ms-2">Frames</button>
+                                        <button type="button">Elements</button>
+                                        <div class="uparea" class="drop-zone">
+                                            <div class="upload-inner">
+                                                <!-- SVG Cloud Icon -->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                                                    fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                                    <path
+                                                        d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+                                                </svg>
+                                                <h6>Click / Drop / Past</h6>
+                                                <span>Select from <button class="fw-bold p-0">History</button></span>
+                                                <p>video files up to 10MB with minimum dimensions of 300px</p>
+                                                <input type="file" class="file-input" accept="video/*" hidden>
+                                            </div>
+                                            <div class="preview-grid"></div>
+                                        </div>
+                                        <div class="hints d-flex align-items-center">
+                                            <span>Hints:</span>
+                                            <ul class="nav d-inline-flex">
+                                                <li class="nav-item"><a class="nav-link btn p-1"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="35px"
+                                                            class="rounded"></a></li>
+                                                <li class="nav-item"><a class="nav-link btn p-1"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="35px"
+                                                            class="rounded"></a></li>
+                                                <li class="nav-item"><a class="nav-link btn p-1"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="35px"
+                                                            class="rounded"></a></li>
+                                                <li class="nav-item"><a class="nav-link btn p-1"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="35px"
+                                                            class="rounded"></a></li>
+                                                <li class="nav-item"><a class="nav-link btn p-1"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="35px"
+                                                            class="rounded"></a></li>
+                                            </ul>
+                                            <button class="ms-auto me-3"><i class="bi bi-arrow-repeat"></i></button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="uploadImg">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="promptBox p-2">
+                                                    <label for="prompt_field">Prompt <small>(Required)</small></label>
+                                                    <textarea class="form-control" name="" rows="4" id="prompt_field"
+                                                        placeholder="Describe the image you want to generate, Be as detailed as possible..."></textarea>
+                                                    <p style="font-size: 0.7em;" class="p"><small>Tip: Include details
+                                                            about composition, lighting, mood, and
+                                                            style for best results.</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 p-0">
+                                                <div class="hints_horizontal text-center">
+                                                    <span>Hints:</span>
+                                                    <a href="" class="btn m-0 my-1 p-0"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="70px"
+                                                            class="rounded"></a>
+                                                    <a href="" class="btn m-0 my-1 p-0"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="70px"
+                                                            class="rounded"></a>
+                                                    <a href="" class="btn m-0 my-1 p-0"><img
+                                                            src="https://picsum.photos/200/200" alt="" width="70px"
+                                                            class="rounded"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -337,8 +424,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="generated_area col-12 col-md-8 col-lg-9 p-0">
-                    <div class="toast show align-items-center w-100 ms-3 mb-2" role="alert" aria-live="assertive"
+                <div class="generated_area col-12 col-lg-8 p-0">
+                    <div class="toast show align-items-center w-100 ms-3 my-2" role="alert" aria-live="assertive"
                         aria-atomic="true">
                         <div class="d-flex">
                             <div class="toast-body">
@@ -412,7 +499,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="generated_items pt-1 ps-2 pe-6">
+                    <div class="generated_items pt-1 ps-2 pe-lx-5">
 
                         <div class="generated_item video mb-5">
                             <div class="generated_item_head">
@@ -539,70 +626,104 @@
         crossorigin="anonymous"></script>
 
     <script>
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
-        const previewGrid = document.getElementById('preview-grid');
+        // Target all upload areas on the page
+        document.querySelectorAll('.uparea').forEach(dropZone => {
+            const fileInput = dropZone.querySelector('.file-input');
+            const previewGrid = dropZone.querySelector('.preview-grid');
+            const uploadInner = dropZone.querySelector('.upload-inner');
 
-        // Click to trigger input
-        dropZone.addEventListener('click', () => fileInput.click());
+            // 1. CLICK: Trigger the specific input for THIS zone
+            dropZone.addEventListener('click', (e) => {
+                // Prevent trigger if clicking the "Remove" button in preview
+                if (!e.target.closest('.remove-btn')) fileInput.click();
+            });
 
-        // Visual feedback for drag-over
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
+            fileInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files, previewGrid, uploadInner);
+            });
+
+            // 2. DRAG & DROP: Context-aware for each zone
+            dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropZone.classList.add('drag-over');
             });
-        });
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+
+            dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropZone.classList.remove('drag-over');
+                handleFiles(e.dataTransfer.files, previewGrid, uploadInner);
+            });
+
+            // 3. PASTE: Only handle if the specific tab/pane is active
+            window.addEventListener('paste', (e) => {
+                const parentPane = dropZone.closest('.tab-pane');
+                // Only process paste if this dropZone is inside the currently visible tab
+                if (parentPane && parentPane.classList.contains('active')) {
+                    handleFiles(e.clipboardData.files, previewGrid, uploadInner);
+                }
             });
         });
 
-        // Handle dropped files
-        dropZone.addEventListener('drop', (e) => {
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        });
+        /**
+         * Handles file validation and UI updates
+         */
+        function handleFiles(files, previewGrid, uploadInner) {
+            if (!files || files.length === 0) return;
+            const file = files[0];
 
-        // Handle selected files
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
+            // Validation: Video type and 10MB size limit
+            if (!file.type.startsWith('video/')) return alert("Please select a video file.");
+            if (file.size > 50 * 1024 * 1024) return alert("File size exceeds 10MB limit.");
 
-        function handleFiles(files) {
-            [...files].forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        previewGrid.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                }
+            generateVideoThumbnail(file, (thumbUrl) => {
+                uploadInner.style.display = 'none';
+                previewGrid.innerHTML = `
+            <div class="position-relative d-inline-block mt-3">
+                <img src="${thumbUrl}" class="img-fluid rounded shadow-sm border" style="max-width: 250px;">
+                <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 remove-btn" 
+                        onclick="resetZone(this)">✕</button>
+            </div>
+        `;
             });
         }
-        // Add Paste Support
-        document.addEventListener('paste', (e) => {
-            // Get items from clipboard
-            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
 
-            for (const item of items) {
-                if (item.kind === 'file' && item.type.startsWith('image/')) {
-                    const blob = item.getAsFile();
-                    // Use a custom name for the pasted image
-                    const pastedFile = new File([blob], `pasted-image-${Date.now()}.png`, {
-                        type: blob.type
-                    });
+        /**
+         * Extracts a frame from the video using a hidden canvas
+         */
+        function generateVideoThumbnail(file, callback) {
+            const video = document.createElement('video');
+            const canvas = document.createElement('canvas');
+            const url = URL.createObjectURL(file);
 
-                    // Pass to your existing handler
-                    handleFiles([pastedFile]);
-                }
-            }
-        });
+            video.src = url;
+            video.muted = true;
+            video.playsInline = true;
+
+            video.onloadeddata = () => {
+                video.currentTime = 1; // Seek to 1s to capture a non-black frame
+            };
+
+            video.onseeked = () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                callback(canvas.toDataURL('image/jpeg'));
+                URL.revokeObjectURL(url); // Cleanup memory
+            };
+        }
+
+        /**
+         * Global helper to reset a specific upload zone
+         */
+        window.resetZone = function (btn) {
+            const zone = btn.closest('.uparea');
+            zone.querySelector('.preview-grid').innerHTML = '';
+            zone.querySelector('.upload-inner').style.display = 'block';
+            zone.querySelector('.file-input').value = '';
+        };
+
 
 
 
